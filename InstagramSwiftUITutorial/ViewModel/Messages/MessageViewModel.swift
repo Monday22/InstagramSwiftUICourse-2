@@ -12,7 +12,5 @@ struct MessageViewModel {
     
     var currentUid: String { return AuthViewModel.shared.userSession?.uid ?? "" }
     
-    
-    
     var isFromCurrentUser: Bool { return message.fromId == currentUid }
 }

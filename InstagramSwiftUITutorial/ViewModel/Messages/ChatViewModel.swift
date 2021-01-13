@@ -30,7 +30,8 @@ class ChatViewModel: ObservableObject {
     }
     
     func sendMessage(_ messageText: String) {
-        guard let currentUid = AuthViewModel.shared.userSession?.uid else { return }
+        guard let currentUser = AuthViewModel.shared.currentUser else { return }
+        guard let currentUid = currentUser.id else { return }
         guard let uid = user.id else { return }
         
         let currentUserRef = COLLECTION_MESSAGES.document(currentUid).collection(uid).document()
@@ -49,9 +50,19 @@ class ChatViewModel: ObservableObject {
                                    "fullname": user.fullname,
                                    "timestamp": Timestamp(date: Date())]
         
+        let recipientData: [String: Any] = ["text": messageText,
+                                            "id": messageID,
+                                            "fromId": currentUid,
+                                            "toId": uid,
+                                            "username": currentUser.username,
+                                            "profileImageUrl": currentUser.profileImageUrl,
+                                            "fullname": currentUser.fullname,
+                                            "timestamp": Timestamp(date: Date())]
+        
         currentUserRef.setData(data)
-        receivingUserRef.document(messageID).setData(data)
-        receivingRecentRef.document(currentUid).setData(data)
         currentRecentRef.document(uid).setData(data)
+
+        receivingUserRef.document(messageID).setData(recipientData)
+        receivingRecentRef.document(currentUid).setData(recipientData)
     }
 }
