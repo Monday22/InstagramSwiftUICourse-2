@@ -27,16 +27,22 @@ struct FeedCell: View {
                     .clipped()
                     .cornerRadius(18)
                 
-                Text(viewModel.post.ownerUsername)
-                    .font(.system(size: 14, weight: .semibold))
+                Button {
+                    print("Go to profile..")
+                } label: {
+                    Text(viewModel.post.ownerUsername)
+                        .font(.system(size: 14, weight: .semibold))
+                }
             }
             .padding([.leading, .bottom], 8)
+            .zIndex(1)
             
             KFImage(URL(string: viewModel.post.imageUrl))
                 .resizable()
                 .scaledToFill()
-                .frame(maxHeight: 440)
+                .frame(height: 400)
                 .clipped()
+                .zIndex(-1)
             
             HStack(spacing: 16) {
                 Button(action: {

@@ -18,15 +18,13 @@ class NotificationsViewModel: ObservableObject {
     func fetchNotifications() {
         guard let uid = AuthViewModel.shared.userSession?.uid else { return }
         
-        let query = COLLECTION_NOTIFICATIONS.document(uid).collection("user-notifications")
+        let query = COLLECTION_NOTIFICATIONS
+            .document(uid).collection("user-notifications")
             .order(by: "timestamp", descending: true)
         
         query.getDocuments { snapshot, _ in
             guard let documents = snapshot?.documents else { return }
             self.notifications = documents.compactMap({ try? $0.data(as: Notification.self) })
-            
-            print(self.notifications)
-            
         }
     }
     

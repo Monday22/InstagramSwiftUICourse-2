@@ -33,7 +33,7 @@ class PostGridViewModel: ObservableObject {
     }
     
     func fetchExplorePagePosts() {
-        let query = COLLECTION_POSTS.limit(to: 15).order(by: "timestamp", descending: true)
+        let query = COLLECTION_POSTS.limit(to: 16).order(by: "timestamp", descending: true)
         
         if let last = lastDoc {
             let next = query.start(afterDocument: last)
