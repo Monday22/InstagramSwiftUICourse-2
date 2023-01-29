@@ -81,7 +81,6 @@ struct LoginView: View {
                             }.foregroundColor(.white)
                         }).padding(.bottom, 16)
                 }
-                .padding(.top, -44)
             }
         }
     }

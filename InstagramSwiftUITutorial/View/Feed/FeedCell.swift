@@ -40,7 +40,7 @@ struct FeedCell: View {
             KFImage(URL(string: viewModel.post.imageUrl))
                 .resizable()
                 .scaledToFill()
-                .frame(height: 400)
+                .frame(width: UIScreen.main.bounds.width, height: 400)
                 .clipped()
                 .zIndex(-1)
             
@@ -77,7 +77,6 @@ struct FeedCell: View {
             }
             .padding(.leading, 4)
             .foregroundColor(.black)
-            
             
             NavigationLink(destination: UserListView(viewModel: SearchViewModel(config: .likes(viewModel.post.id ?? "")), searchText: .constant(""))) {
                 Text(viewModel.likeString)

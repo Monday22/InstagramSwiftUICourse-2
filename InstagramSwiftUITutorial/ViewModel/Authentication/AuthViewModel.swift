@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseAuth
 
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
@@ -80,8 +81,13 @@ class AuthViewModel: ObservableObject {
     
     func fetchUser() {
         guard let uid = userSession?.uid else { return }
+        print("DEBUG: Uid is \(uid)")
         COLLECTION_USERS.document(uid).getDocument { snapshot, _ in
-            guard let user = try? snapshot?.data(as: User.self) else { return }
+            guard let user = try? snapshot?.data(as: User.self) else {
+                print("DEBUG: Failed to decode user")
+                return
+            }
+            print("DEBUG: User is \(user)")
             self.currentUser = user
         }
     }
