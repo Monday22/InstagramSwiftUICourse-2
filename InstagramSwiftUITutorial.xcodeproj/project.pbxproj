@@ -161,25 +161,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2338F7A225AA409800A298FA /* Messages */ = {
-			isa = PBXGroup;
-			children = (
-				2359F44A25AF882C004F8071 /* MessageViewModel.swift */,
-				2338F7B725AA94CA00A298FA /* ConversationsViewModel.swift */,
-				2338F7BA25AA94DA00A298FA /* ChatViewModel.swift */,
-			);
-			path = Messages;
-			sourceTree = "<group>";
-		};
 		2338F7A325AA40BB00A298FA /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				2338F7A825AA940100A298FA /* ConversationsView.swift */,
-				2338F7AB25AA941700A298FA /* ConversationCell.swift */,
-				2338F7AE25AA945B00A298FA /* ChatView.swift */,
-				2338F7B125AA946800A298FA /* ChatBubble.swift */,
-				2338F7B425AA947600A298FA /* MessageView.swift */,
-				2338F7C025AAA52500A298FA /* NewMessageView.swift */,
+				2BCBD71D2986CE3C0002ABC6 /* Views */,
+				2BCBD71E2986CE450002ABC6 /* ViewModel */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -203,12 +189,11 @@
 		23EA5B432597A19500769D19 /* InstagramSwiftUITutorial */ = {
 			isa = PBXGroup;
 			children = (
+				2BCBD72A2986CF680002ABC6 /* App */,
+				2BCBD7192986CDFF0002ABC6 /* Core */,
 				23EA5B582597A20A00769D19 /* Model */,
-				23EA5B572597A20800769D19 /* View */,
-				23EA5B562597A20600769D19 /* ViewModel */,
 				23EA5B552597A20400769D19 /* API */,
 				23EA5B542597A1F900769D19 /* Utils */,
-				23EA5B442597A19500769D19 /* InstagramSwiftUITutorialApp.swift */,
 				23EA5B482597A19800769D19 /* Assets.xcassets */,
 				23EA5B4D2597A19800769D19 /* Info.plist */,
 				2345783325994C6C00CBA711 /* GoogleService-Info.plist */,
@@ -248,39 +233,6 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		23EA5B562597A20600769D19 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				2338F7A225AA409800A298FA /* Messages */,
-				23EA5B6A2597A2EE00769D19 /* Profile */,
-				23EA5B692597A2E700769D19 /* Authentication */,
-				23EA5B682597A2E200769D19 /* Notifications */,
-				23EA5B672597A2DE00769D19 /* Feed */,
-				2345786A259B9B2F00CBA711 /* SearchViewModel.swift */,
-				23457877259E5E8A00CBA711 /* UploadPostViewModel.swift */,
-				23CA95AC259E7D2500382F7C /* PostGridViewModel.swift */,
-				23CA95BF259F9C1500382F7C /* CommentViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		23EA5B572597A20800769D19 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				2338F7A325AA40BB00A298FA /* Messages */,
-				23EA5B662597A2A900769D19 /* Items */,
-				23EA5B652597A29C00769D19 /* Authentication */,
-				23EA5B642597A29700769D19 /* Notifications */,
-				23EA5B632597A29300769D19 /* Search */,
-				23EA5B622597A28D00769D19 /* Comments */,
-				23EA5B612597A28A00769D19 /* Feed */,
-				23EA5B602597A28400769D19 /* Profile */,
-				23EA5B5F2597A27D00769D19 /* UploadPost */,
-				23EA5B5A2597A25E00769D19 /* Main */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		23EA5B582597A20A00769D19 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,12 +257,116 @@
 		23EA5B5F2597A27D00769D19 /* UploadPost */ = {
 			isa = PBXGroup;
 			children = (
-				23EA5B7B2597A46500769D19 /* UploadPostView.swift */,
+				2BCBD72C2986CFA50002ABC6 /* View */,
+				2BCBD72B2986CF9D0002ABC6 /* ViewModel */,
 			);
 			path = UploadPost;
 			sourceTree = "<group>";
 		};
-		23EA5B602597A28400769D19 /* Profile */ = {
+		23EA5B612597A28A00769D19 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				2BCBD71B2986CE160002ABC6 /* View */,
+				2BCBD71C2986CE190002ABC6 /* ViewModel */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		23EA5B622597A28D00769D19 /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				2BCBD7282986CF260002ABC6 /* View */,
+				2BCBD7292986CF320002ABC6 /* ViewModel */,
+			);
+			path = Comments;
+			sourceTree = "<group>";
+		};
+		23EA5B632597A29300769D19 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				2BCBD7242986CEDA0002ABC6 /* View */,
+				2BCBD7252986CEE60002ABC6 /* ViewModel */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		23EA5B682597A2E200769D19 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				2BCBD7272986CF050002ABC6 /* View */,
+				2BCBD7262986CEFF0002ABC6 /* ViewModel */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		23EA5B6A2597A2EE00769D19 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				2BCBD71F2986CE620002ABC6 /* View */,
+				2BCBD7202986CE640002ABC6 /* ViewModel */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		2BCBD7192986CDFF0002ABC6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2BCBD72D2986CFD80002ABC6 /* Components */,
+				2BCBD7212986CE8D0002ABC6 /* Authentication */,
+				23EA5B622597A28D00769D19 /* Comments */,
+				23EA5B612597A28A00769D19 /* Feed */,
+				23EA5B5A2597A25E00769D19 /* Main */,
+				2338F7A325AA40BB00A298FA /* Messages */,
+				23EA5B682597A2E200769D19 /* Notifications */,
+				23EA5B6A2597A2EE00769D19 /* Profile */,
+				23EA5B632597A29300769D19 /* Search */,
+				23EA5B5F2597A27D00769D19 /* UploadPost */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		2BCBD71B2986CE160002ABC6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				23EA5B6F2597A42300769D19 /* FeedView.swift */,
+				23EA5B7E2597A91100769D19 /* FeedCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2BCBD71C2986CE190002ABC6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				23457884259E70DF00CBA711 /* FeedViewModel.swift */,
+				23CA95AF259E840F00382F7C /* FeedCellViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2BCBD71D2986CE3C0002ABC6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2338F7A825AA940100A298FA /* ConversationsView.swift */,
+				2338F7AB25AA941700A298FA /* ConversationCell.swift */,
+				2338F7AE25AA945B00A298FA /* ChatView.swift */,
+				2338F7B125AA946800A298FA /* ChatBubble.swift */,
+				2338F7B425AA947600A298FA /* MessageView.swift */,
+				2338F7C025AAA52500A298FA /* NewMessageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2BCBD71E2986CE450002ABC6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2359F44A25AF882C004F8071 /* MessageViewModel.swift */,
+				2338F7B725AA94CA00A298FA /* ConversationsViewModel.swift */,
+				2338F7BA25AA94DA00A298FA /* ChatViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2BCBD71F2986CE620002ABC6 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				23EA5B782597A45B00769D19 /* ProfileView.swift */,
@@ -319,56 +375,131 @@
 				2345780E2598DBFE00CBA711 /* ProfileActionButtonView.swift */,
 				2338F79C25AA12A900A298FA /* EditProfileView.swift */,
 			);
-			path = Profile;
+			path = View;
 			sourceTree = "<group>";
 		};
-		23EA5B612597A28A00769D19 /* Feed */ = {
+		2BCBD7202986CE640002ABC6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				23EA5B6F2597A42300769D19 /* FeedView.swift */,
-				23EA5B7E2597A91100769D19 /* FeedCell.swift */,
+				2345786D259D763500CBA711 /* ProfileViewModel.swift */,
+				2338F79F25AA16F700A298FA /* EditProfileViewModel.swift */,
 			);
-			path = Feed;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		23EA5B622597A28D00769D19 /* Comments */ = {
+		2BCBD7212986CE8D0002ABC6 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				23CA95B9259F9BFC00382F7C /* CommentsView.swift */,
-				23CA95BC259F9C0600382F7C /* CommentCell.swift */,
+				2BCBD7232986CE960002ABC6 /* View */,
+				2BCBD7222986CE930002ABC6 /* ViewModel */,
 			);
-			path = Comments;
+			path = Authentication;
 			sourceTree = "<group>";
 		};
-		23EA5B632597A29300769D19 /* Search */ = {
+		2BCBD7222986CE930002ABC6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				23EA5B722597A44B00769D19 /* SearchView.swift */,
-				23EA5B812597B55E00769D19 /* SearchBar.swift */,
+				234578362599514200CBA711 /* AuthViewModel.swift */,
 			);
-			path = Search;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		23EA5B642597A29700769D19 /* Notifications */ = {
-			isa = PBXGroup;
-			children = (
-				23EA5B752597A45100769D19 /* NotificationsView.swift */,
-				23EA5B902598030300769D19 /* NotificationCell.swift */,
-			);
-			path = Notifications;
-			sourceTree = "<group>";
-		};
-		23EA5B652597A29C00769D19 /* Authentication */ = {
+		2BCBD7232986CE960002ABC6 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				234578142598FBC000CBA711 /* LoginView.swift */,
 				234578172598FBC700CBA711 /* RegistrationView.swift */,
 				2345781A2598FBD400CBA711 /* ResetPasswordView.swift */,
 			);
-			path = Authentication;
+			path = View;
 			sourceTree = "<group>";
 		};
-		23EA5B662597A2A900769D19 /* Items */ = {
+		2BCBD7242986CEDA0002ABC6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				23EA5B722597A44B00769D19 /* SearchView.swift */,
+				23EA5B812597B55E00769D19 /* SearchBar.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2BCBD7252986CEE60002ABC6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2345786A259B9B2F00CBA711 /* SearchViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2BCBD7262986CEFF0002ABC6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				23CA95C825A0E5B200382F7C /* NotificationsViewModel.swift */,
+				23CA95CB25A23EB800382F7C /* NotificationCellViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2BCBD7272986CF050002ABC6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				23EA5B752597A45100769D19 /* NotificationsView.swift */,
+				23EA5B902598030300769D19 /* NotificationCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2BCBD7282986CF260002ABC6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				23CA95B9259F9BFC00382F7C /* CommentsView.swift */,
+				23CA95BC259F9C0600382F7C /* CommentCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2BCBD7292986CF320002ABC6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				23CA95BF259F9C1500382F7C /* CommentViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2BCBD72A2986CF680002ABC6 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				23EA5B442597A19500769D19 /* InstagramSwiftUITutorialApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		2BCBD72B2986CF9D0002ABC6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				23457877259E5E8A00CBA711 /* UploadPostViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2BCBD72C2986CFA50002ABC6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				23EA5B7B2597A46500769D19 /* UploadPostView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2BCBD72D2986CFD80002ABC6 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2BCBD72E2986CFE90002ABC6 /* View */,
+				2BCBD72F2986CFF00002ABC6 /* ViewModel */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2BCBD72E2986CFE90002ABC6 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				23EA5B842597B78500769D19 /* PostGridView.swift */,
@@ -376,42 +507,15 @@
 				23EA5B8A2597B98A00769D19 /* UserListView.swift */,
 				23CA95C2259F9EEB00382F7C /* CustomInputView.swift */,
 			);
-			path = Items;
+			path = View;
 			sourceTree = "<group>";
 		};
-		23EA5B672597A2DE00769D19 /* Feed */ = {
+		2BCBD72F2986CFF00002ABC6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				23457884259E70DF00CBA711 /* FeedViewModel.swift */,
-				23CA95AF259E840F00382F7C /* FeedCellViewModel.swift */,
+				23CA95AC259E7D2500382F7C /* PostGridViewModel.swift */,
 			);
-			path = Feed;
-			sourceTree = "<group>";
-		};
-		23EA5B682597A2E200769D19 /* Notifications */ = {
-			isa = PBXGroup;
-			children = (
-				23CA95C825A0E5B200382F7C /* NotificationsViewModel.swift */,
-				23CA95CB25A23EB800382F7C /* NotificationCellViewModel.swift */,
-			);
-			path = Notifications;
-			sourceTree = "<group>";
-		};
-		23EA5B692597A2E700769D19 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				234578362599514200CBA711 /* AuthViewModel.swift */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
-		23EA5B6A2597A2EE00769D19 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				2345786D259D763500CBA711 /* ProfileViewModel.swift */,
-				2338F79F25AA16F700A298FA /* EditProfileViewModel.swift */,
-			);
-			path = Profile;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
