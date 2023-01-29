@@ -9,7 +9,11 @@ import SwiftUI
 import KingfisherSwiftUI
 
 struct PostGridView: View {
-    private let items = [GridItem(), GridItem(), GridItem()]
+    private let items = [
+        GridItem(.flexible(), spacing: 0),
+        GridItem(.flexible(), spacing: 0),
+        GridItem(.flexible(), spacing: 0),
+    ]
     private let width = UIScreen.main.bounds.width / 3
     
     let config: PostGridConfiguration

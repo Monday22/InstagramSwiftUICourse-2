@@ -38,8 +38,7 @@ struct UploadPostView: View {
                         .frame(width: 96, height: 96)
                         .clipped()
                     
-                    TextArea(text: $captionText, placeholder: "Enter your caption..")
-                        .frame(height: 200)
+                    TextField("Enter your caption..", text: $captionText, axis: .vertical)
                 }.padding()
                 
                 HStack(spacing: 16) {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentsView: View {
-    @State var commentText = ""
+    @State private var commentText = ""
     @ObservedObject var viewModel: CommentViewModel
     
     init(post: Post) {
