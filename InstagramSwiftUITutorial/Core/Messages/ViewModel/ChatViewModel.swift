@@ -18,7 +18,7 @@ class ChatViewModel: ObservableObject {
     }
     
     func fetchMessages() {
-        guard let currentUid = AuthViewModel.shared.userSession?.uid else { return }
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
         guard let uid = user.id else { return }
         
         let query = COLLECTION_MESSAGES.document(currentUid).collection(uid)

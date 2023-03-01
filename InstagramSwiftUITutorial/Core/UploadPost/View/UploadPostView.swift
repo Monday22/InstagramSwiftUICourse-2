@@ -56,7 +56,8 @@ struct UploadPostView: View {
                     
                     Button(action: {
                         if let image = selectedImage {
-                            viewModel.uploadPost(caption: captionText, image: image) { _ in
+                            Task {
+                                try await viewModel.uploadPost(caption: captionText, image: image)
                                 captionText = ""
                                 postImage = nil
                                 tabIndex = 0

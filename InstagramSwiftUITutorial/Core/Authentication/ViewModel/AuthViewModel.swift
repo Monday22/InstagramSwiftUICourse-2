@@ -18,53 +18,56 @@ class AuthViewModel: ObservableObject {
     
     init() {
         userSession = Auth.auth().currentUser
-        fetchUser()
-    }
-    
-    func login(withEmail email: String, password: String) {
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            if let error = error {
-                print("DEBUG: Login failed \(error.localizedDescription)")
-                return
-            }
-            
-            guard let user = result?.user else { return }
-            self.userSession = user
-            self.fetchUser()
+        
+        Task {
+            await fetchUser()
         }
     }
     
-    func register(withEmail email: String, password: String,
-                  image: UIImage?, fullname: String, username: String) {
+    @MainActor
+    func login(withEmail email: String, password: String) async throws {
+        do {
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            self.userSession = result.user
+            await fetchUser()
+        } catch {
+            print("DEBUG: Login failed \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func register(
+        withEmail email: String,
+        password: String,
+        image: UIImage?,
+        fullname: String,
+        username: String
+    ) async throws {
         guard let image = image else { return }
         
-        ImageUploader.uploadImage(image: image, type: .profile) { imageUrl in
-            Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                    return
-                }
-                
-                guard let user = result?.user else { return }
-                print("Successfully registered user...")
-                
-                let data = ["email": email,
-                            "username": username,
-                            "fullname": fullname,
-                            "profileImageUrl": imageUrl,
-                            "uid": user.uid]
-                
-                COLLECTION_USERS.document(user.uid).setData(data) { _ in
-                    print("Successfully uploaded user data...")
-                    self.userSession = user
-                    self.fetchUser()
-                }
-            }
+        do {
+            let imageUrl = try await ImageUploader.uploadImage(image: image, type: .profile)
+            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            self.userSession = result.user
+            
+            let data: [String: Any] = [
+                "email": email,
+                "username": username,
+                "fullname": fullname,
+                "profileImageUrl": imageUrl ?? "",
+                "uid": result.user.uid
+            ]
+            
+            try await COLLECTION_USERS.document(result.user.uid).setData(data)
+            await fetchUser()
+        } catch {
+            print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
         }
     }
     
     func signout() {
         self.userSession = nil
+        self.currentUser = nil
         try? Auth.auth().signOut()
     }
     
@@ -79,16 +82,11 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func fetchUser() {
-        guard let uid = userSession?.uid else { return }
-        print("DEBUG: Uid is \(uid)")
-        COLLECTION_USERS.document(uid).getDocument { snapshot, _ in
-            guard let user = try? snapshot?.data(as: User.self) else {
-                print("DEBUG: Failed to decode user")
-                return
-            }
-            print("DEBUG: User is \(user)")
-            self.currentUser = user
-        }
+    @MainActor
+    func fetchUser() async {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let snapshot = try? await COLLECTION_USERS.document(uid).getDocument()
+        guard let user = try? snapshot?.data(as: User.self) else { return }
+        self.currentUser = user
     }
 }

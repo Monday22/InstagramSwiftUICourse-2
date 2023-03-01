@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 class FeedCellViewModel: ObservableObject {
     @Published var post: Post
@@ -29,7 +30,7 @@ class FeedCellViewModel: ObservableObject {
     }
     
     func like() {
-        guard let uid = AuthViewModel.shared.userSession?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let postId = post.id else { return }
         
         COLLECTION_POSTS.document(postId).collection("post-likes")
@@ -50,7 +51,7 @@ class FeedCellViewModel: ObservableObject {
     
     func unlike() {
         guard post.likes > 0 else { return }
-        guard let uid = AuthViewModel.shared.userSession?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let postId = post.id else { return }
         
         COLLECTION_POSTS.document(postId).collection("post-likes").document(uid).delete { _ in
@@ -66,7 +67,7 @@ class FeedCellViewModel: ObservableObject {
     }
     
     func checkIfUserLikedPost() {
-        guard let uid = AuthViewModel.shared.userSession?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let postId = post.id else { return }
         
         COLLECTION_USERS.document(uid).collection("user-likes").document(postId)

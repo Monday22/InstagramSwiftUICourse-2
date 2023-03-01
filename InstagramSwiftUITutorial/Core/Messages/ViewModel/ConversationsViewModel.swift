@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
 
 class ConversationsViewModel: ObservableObject {
     @Published var recentMessages = [Message]()
     private var recentMessagesDictionary = [String: Message]()
     
     func fetchRecentMessages() {
-        guard let uid = AuthViewModel.shared.userSession?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let query = COLLECTION_MESSAGES.document(uid).collection("recent-messages")
         query.order(by: "timestamp", descending: true)

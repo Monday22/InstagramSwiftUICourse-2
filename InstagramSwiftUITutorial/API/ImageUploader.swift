@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
 
 enum UploadType {
     case profile
@@ -24,22 +25,17 @@ enum UploadType {
 }
 
 struct ImageUploader {
-    static func uploadImage(image: UIImage, type: UploadType, completion: @escaping(String) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+    static func uploadImage(image: UIImage, type: UploadType) async throws -> String? {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return nil }
         let ref = type.filePath
-                
-        ref.putData(imageData, metadata: nil) { _, error in
-            if let error = error {
-                print("DEBUG: Failed to upload image \(error.localizedDescription)")
-                return
-            }
-            
-            print("Successfully uploaded image...")
-            
-            ref.downloadURL { url, _ in
-                guard let imageUrl = url?.absoluteString else { return }
-                completion(imageUrl)
-            }
+        
+        do {
+            let _ = try await ref.putDataAsync(imageData)
+            let url = try await ref.downloadURL()
+            return url.absoluteString
+        } catch {
+            print("DEBUG: Failed to upload image \(error.localizedDescription)")
+            return nil
         }
     }
 }
