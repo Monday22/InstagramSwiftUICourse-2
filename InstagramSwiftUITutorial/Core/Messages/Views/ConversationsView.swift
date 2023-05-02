@@ -15,18 +15,11 @@ struct ConversationsView: View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            
-            if let user = user {
-                NavigationLink(destination: LazyView(ChatView(user: user)),
-                               isActive: $showChat,
-                               label: {} )
-            }
-            
             ScrollView {
                 VStack {
                     ForEach(viewModel.recentMessages) { message in
                         NavigationLink(
-                            destination: ChatView(user: User(message: message)),
+                            destination: Text("Messages")/* */,
                             label: {
                                 ConversationCell(message: message)
                             })
@@ -57,6 +50,11 @@ struct ConversationsView: View {
         }
         .onAppear {
             viewModel.fetchRecentMessages()
+        }
+        .navigationDestination(isPresented: $showChat) {
+            if let user = user {
+                ChatView(user: user)
+            }
         }
     }
 }

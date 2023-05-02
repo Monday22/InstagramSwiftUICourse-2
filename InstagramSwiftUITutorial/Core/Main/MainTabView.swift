@@ -12,10 +12,9 @@ struct MainTabView: View {
     @Binding var selectedIndex: Int
     
     var body: some View {
-        NavigationStack {
             TabView(selection: $selectedIndex) {
                 FeedView()
-                    .onTapGesture {
+                    .onAppear {
                         selectedIndex = 0
                     }
                     .tabItem {
@@ -23,7 +22,7 @@ struct MainTabView: View {
                     }.tag(0)
                 
                 SearchView()
-                    .onTapGesture {
+                    .onAppear {
                         selectedIndex = 1
                     }
                     .tabItem {
@@ -31,7 +30,7 @@ struct MainTabView: View {
                     }.tag(1)
                 
                 UploadPostView(tabIndex: $selectedIndex)
-                    .onTapGesture {
+                    .onAppear {
                         selectedIndex = 2
                     }
                     .tabItem {
@@ -39,7 +38,7 @@ struct MainTabView: View {
                     }.tag(2)
                 
                 NotificationsView()
-                    .onTapGesture {
+                    .onAppear {
                         selectedIndex = 3
                     }
                     .tabItem {
@@ -47,7 +46,7 @@ struct MainTabView: View {
                     }.tag(3)
                 
                 ProfileView(user: user)
-                    .onTapGesture {
+                    .onAppear {
                         selectedIndex = 4
                     }
                     .tabItem {
@@ -60,8 +59,7 @@ struct MainTabView: View {
                 leading: selectedIndex == 0 ? logoutButton : nil,
                 trailing: selectedIndex == 0 ? messageLink : nil
             )
-            .accentColor(.black)
-        }
+            .accentColor(Color.theme.systemBackground)
     }
     
     var logoutButton: some View {

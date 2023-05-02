@@ -8,47 +8,64 @@
 import SwiftUI
 import Firebase
 
+@MainActor
 class CommentViewModel: ObservableObject {
     private let post: Post
+    private let postId: String
     @Published var comments = [Comment]()
     
     init(post: Post) {
         self.post = post
-        fetchComments()
+        self.postId = post.id ?? ""
+        
+        Task { try await fetchComments() }
     }
     
-    func uploadComment(commentText: String) {
-        guard let user = AuthViewModel.shared.currentUser else { return }
-        guard let postId = post.id else { return }
+    func uploadComment(commentText: String) async {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let currentUser = AuthViewModel.shared.currentUser else { return }
         
-        let data: [String: Any] = ["username": user.username,
-                                   "profileImageUrl": user.profileImageUrl,
-                                   "uid": user.id ?? "",
+        let data: [String: Any] = ["commentOwnerUid": uid,
                                    "timestamp": Timestamp(date: Date()),
                                    "postOwnerUid": post.ownerUid,
+                                   "postId": postId,
                                    "commentText": commentText]
         
-        
-        COLLECTION_POSTS.document(postId).collection("post-comments").addDocument(data: data) { error in
-            if let error = error {
-                print("DEBUG: Error uploading comment \(error.localizedDescription)")
-                return
-            }
-            
-            NotificationsViewModel.uploadNotification(toUid: self.post.ownerUid,
-                                                      type: .comment, post: self.post)
-        }
+        let _ = try? await COLLECTION_POSTS.document(postId).collection("post-comments").addDocument(data: data)
+        NotificationsViewModel.uploadNotification(toUid: self.post.ownerUid, type: .comment, post: self.post)
+        self.comments.insert(Comment(user: currentUser, data: data), at: 0)
     }
     
-    func fetchComments() {
-        guard let postId = post.id else { return }
+    func fetchComments() async throws {
+        let query = COLLECTION_POSTS.document(postId).collection("post-comments").order(by: "timestamp", descending: true)
+        guard let commentSnapshot = try? await query.getDocuments() else { return }
+        let documentData = commentSnapshot.documents.compactMap({ $0.data() })
         
-        let query = COLLECTION_POSTS.document(postId).collection("post-comments")
-            .order(by: "timestamp", descending: true)
-        
-        query.addSnapshotListener { snapshot, _ in
-            guard let addedDocs = snapshot?.documentChanges.filter({ $0.type == .added }) else { return }
-            self.comments.append(contentsOf: addedDocs.compactMap({ try? $0.document.data(as: Comment.self) }))
+        for data in documentData {
+            guard let uid = data ["commentOwnerUid"] as? String else { return }
+            let user = try await UserService.fetchUser(withUid: uid) 
+            let comment = Comment(user: user, data: data)
+            self.comments.append(comment)
+        }
+    }
+}
+
+// MARK: - Deletion
+
+extension CommentViewModel {
+    func deleteAllComments() {
+        COLLECTION_POSTS.getDocuments { snapshot, _ in
+            guard let postIDs = snapshot?.documents.compactMap({ $0.documentID }) else { return }
+            
+            for id in postIDs {
+                COLLECTION_POSTS.document(id).collection("post-comments").getDocuments { snapshot, _ in
+                    guard let commentIDs = snapshot?.documents.compactMap({ $0.documentID }) else { return }
+                    
+                    for commentId in commentIDs {
+                        COLLECTION_POSTS.document(id).collection("post-comments").document(commentId).delete()
+                    }
+                }
+            }
         }
     }
 }

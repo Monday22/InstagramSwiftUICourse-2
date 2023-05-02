@@ -10,7 +10,7 @@ import Firebase
 
 enum PostGridConfiguration {
     case explore
-    case profile(String)
+    case profile(User)
 }
 
 class PostGridViewModel: ObservableObject {
@@ -27,13 +27,13 @@ class PostGridViewModel: ObservableObject {
         switch config {
         case .explore:
             fetchExplorePagePosts()
-        case .profile(let uid):
-            fetchUserPosts(forUid: uid)
+        case .profile(let user):
+            Task { try await fetchUserPosts(forUser: user) }
         }
     }
     
     func fetchExplorePagePosts() {
-        let query = COLLECTION_POSTS.limit(to: 16).order(by: "timestamp", descending: true)
+        let query = COLLECTION_POSTS.limit(to: 20).order(by: "timestamp", descending: true)
         
         if let last = lastDoc {
             let next = query.start(afterDocument: last)
@@ -49,13 +49,11 @@ class PostGridViewModel: ObservableObject {
                 self.lastDoc = snapshot?.documents.last
             }
         }
-    }
+    }    
     
-    func fetchUserPosts(forUid uid: String) {
-        COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid).getDocuments { snapshot, _ in
-            guard let documents = snapshot?.documents else { return }
-            let posts = documents.compactMap({ try? $0.data(as: Post.self) })
-            self.posts = posts.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
-        }
+    @MainActor
+    func fetchUserPosts(forUser user: User) async throws {
+        let posts = try await PostService.fetchUserPosts(user: user)
+        self.posts = posts
     }
 }

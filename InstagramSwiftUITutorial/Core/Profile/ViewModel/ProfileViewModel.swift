@@ -7,55 +7,56 @@
 
 import SwiftUI
 
+@MainActor
 class ProfileViewModel: ObservableObject {
     @Published var user: User
     
     init(user: User) {
         self.user = user
-        checkIfUserIsFollowed()
-        fetchUserStats()
+        loadUserData()
     }
     
     func follow() {
-        guard let uid = user.id else { return }
-        UserService.follow(uid: uid) { _ in
-            NotificationsViewModel.uploadNotification(toUid: uid, type: .follow)
+        UserService.follow(uid: user.id) { _ in
+            NotificationsViewModel.uploadNotification(toUid: self.user.id, type: .follow)
             self.user.isFollowed = true
         }
     }
     
     func unfollow() {
-        guard let uid = user.id else { return }
-        UserService.unfollow(uid: uid) { _ in
+        UserService.unfollow(uid: user.id) { _ in
             self.user.isFollowed = false
-            NotificationsViewModel.deleteNotification(toUid: uid, type: .follow)
+            NotificationsViewModel.deleteNotification(toUid: self.user.id, type: .follow)
         }
     }
     
-    func checkIfUserIsFollowed() {
-        guard !user.isCurrentUser else { return }
-        guard let uid = user.id else { return }
-        
-        UserService.checkIfUserIsFollowed(uid: uid) { isFollowed in
-            self.user.isFollowed = isFollowed
-        }
+    func checkIfUserIsFollowed() async -> Bool {
+        guard !user.isCurrentUser else { return false }
+        return await UserService.checkIfUserIsFollowed(uid: user.id)
     }
     
-    func fetchUserStats() {
-        guard let uid = user.id else { return }
+    func fetchUserStats() async throws -> UserStats{
+        let uid = user.id
         
-        COLLECTION_FOLLOWING.document(uid).collection("user-following").getDocuments { snapshot, _ in
-            guard let following = snapshot?.documents.count else { return }
+        async let followingSnapshot = try await COLLECTION_FOLLOWING.document(uid).collection("user-following").getDocuments()
+        let following = try await followingSnapshot.count
+        
+        async let followerSnapshot = try await COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments()
+        let followers = try await followerSnapshot.count
+        
+        async let postSnapshot = try await COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid).getDocuments()
+        let posts = try await postSnapshot.count
+        
+        return .init(following: following, posts: posts, followers: followers)
+    }
+    
+    func loadUserData() {
+        Task {
+            async let stats = try await fetchUserStats()
+            self.user.stats = try await stats
             
-            COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { snapshot, _ in
-                guard let followers = snapshot?.documents.count else { return }
-                
-                COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid).getDocuments { snapshot, _ in
-                    guard let posts = snapshot?.documents.count else { return }
-                    
-                    self.user.stats = UserStats(following: following, posts: posts, followers: followers)
-                }
-            }
+            async let isFollowed = await checkIfUserIsFollowed()
+            self.user.isFollowed = await isFollowed
         }
     }
 }

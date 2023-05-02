@@ -14,8 +14,19 @@ struct Comment: Identifiable, Decodable {
     let postOwnerUid: String
     let profileImageUrl: String
     let commentText: String
+    let postId: String
     let timestamp: Timestamp
-    let uid: String
+    let commentOwnerUid: String
+    
+    init(user: User, data: [String: Any]) {
+        self.username = user.username
+        self.profileImageUrl = user.profileImageUrl ?? ""
+        self.postOwnerUid = data["postOwnerUid"] as? String ?? ""
+        self.commentText = data["commentText"] as? String ?? ""
+        self.postId = data["postId"] as? String ?? ""
+        self.timestamp = data["timestamp"] as? Timestamp ?? Timestamp()
+        self.commentOwnerUid = data["commentOwnerUid"] as? String ?? ""
+    }
     
     var timestampString: String? {
         let formatter = DateComponentsFormatter()

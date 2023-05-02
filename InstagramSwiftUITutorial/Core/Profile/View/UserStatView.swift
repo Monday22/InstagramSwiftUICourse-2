@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct UserStatView: View {
-    let value: Int
+    let value: Int?
     let title: String
     
     var body: some View {
         VStack {
-            Text("\(value)")
+            Text("\(value ?? 0)")
                 .font(.system(size: 15, weight: .semibold))
             
             Text(title)
                 .font(.system(size: 15))
         }
         .frame(width: 80, alignment: .center)
-        .foregroundColor(.black)
+        .foregroundColor(Color.theme.systemBackground)
     }
 }
 

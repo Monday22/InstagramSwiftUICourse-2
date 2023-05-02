@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import KingfisherSwiftUI
+import Kingfisher
 
 struct MessageView: View {
     let viewModel: MessageViewModel
@@ -43,6 +43,7 @@ struct MessageView: View {
                 .padding(.horizontal)
                 .padding(.trailing, 100)
                 .padding(.leading, 16)
+                
                 Spacer()
             }
         }

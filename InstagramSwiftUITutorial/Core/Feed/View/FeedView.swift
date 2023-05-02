@@ -11,12 +11,22 @@ struct FeedView: View {
     @StateObject var viewModel = FeedViewModel()
     
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 32) {
-                ForEach(viewModel.posts) { post in
-                    FeedCell(viewModel: FeedCellViewModel(post: post))
+        NavigationStack {
+            ScrollView {
+                LazyVStack(spacing: 32) {
+                    ForEach(viewModel.posts) { post in
+                        FeedCell(viewModel: FeedCellViewModel(post: post))
+                    }
                 }
-            }.padding(.top)
+                .padding(.top)
+            }
+            .navigationTitle("Feed")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem {
+                    
+                }
+            }
         }
     }
 }

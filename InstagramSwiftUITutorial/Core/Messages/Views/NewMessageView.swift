@@ -19,7 +19,7 @@ struct NewMessageView: View {
             SearchBar(text: $searchText, isEditing: .constant(false))
                 .padding()
 
-            VStack(alignment: .leading) {
+            LazyVStack(alignment: .leading) {
                 ForEach(searchText.isEmpty ? viewModel.users : viewModel.filteredUsers(searchText)) { user in
                     HStack { Spacer() }
                     

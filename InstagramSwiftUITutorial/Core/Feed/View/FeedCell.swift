@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import KingfisherSwiftUI
+import Kingfisher
 
 struct FeedCell: View {
     @ObservedObject var viewModel: FeedCellViewModel
@@ -20,38 +20,33 @@ struct FeedCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                KFImage(URL(string: viewModel.post.ownerImageUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 36, height: 36)
-                    .clipped()
-                    .cornerRadius(18)
-                
-                Button {
-                    print("Go to profile..")
-                } label: {
-                    Text(viewModel.post.ownerUsername)
-                        .font(.system(size: 14, weight: .semibold))
+                if let user = viewModel.post.user {
+                    CircularProfileImageView(user: user, size: .xSmall)
+                    
+                    NavigationLink(value: user) {
+                        Text(user.username)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(Color.theme.systemBackground)
+                    }
                 }
             }
             .padding([.leading, .bottom], 8)
-            .zIndex(1)
             
             KFImage(URL(string: viewModel.post.imageUrl))
                 .resizable()
                 .scaledToFill()
                 .frame(width: UIScreen.main.bounds.width, height: 400)
                 .clipped()
-                .zIndex(-1)
-            
+                .contentShape(Rectangle())
+                      
             HStack(spacing: 16) {
                 Button(action: {
-                    didLike ? viewModel.unlike() : viewModel.like()
+                    Task { didLike ? try await viewModel.unlike() : try await viewModel.like() }
                 }, label: {
                     Image(systemName: didLike ? "heart.fill" : "heart")
                         .resizable()
                         .scaledToFill()
-                        .foregroundColor(didLike ? .red : .black)
+                        .foregroundColor(didLike ? .red : Color.theme.systemBackground)
                         .frame(width: 20, height: 20)
                         .font(.system(size: 20))
                         .padding(4)
@@ -64,6 +59,7 @@ struct FeedCell: View {
                         .frame(width: 20, height: 20)
                         .font(.system(size: 20))
                         .padding(4)
+                        .foregroundColor(Color.theme.systemBackground)
                 }
                 
                 Button(action: {}, label: {
@@ -73,20 +69,22 @@ struct FeedCell: View {
                         .frame(width: 20, height: 20)
                         .font(.system(size: 20))
                         .padding(4)
+                        .foregroundColor(Color.theme.systemBackground)
                 })
             }
+            .zIndex(1)
             .padding(.leading, 4)
-            .foregroundColor(.black)
             
-            NavigationLink(destination: UserListView(viewModel: SearchViewModel(config: .likes(viewModel.post.id ?? "")), searchText: .constant(""))) {
+            NavigationLink(value: SearchViewModelConfig.likes(viewModel.post.id ?? "")) {
                 Text(viewModel.likeString)
                     .font(.system(size: 14, weight: .semibold))
                     .padding(.leading, 8)
                     .padding(.bottom, 0.5)
+                    .foregroundColor(Color.theme.systemBackground)
             }
             
             HStack {
-                Text(viewModel.post.ownerUsername).font(.system(size: 14, weight: .semibold)) +
+                Text(viewModel.post.user?.username ?? "").font(.system(size: 14, weight: .semibold)) +
                     Text(" \(viewModel.post.caption)")
                     .font(.system(size: 14))
             }.padding(.horizontal, 8)
@@ -96,6 +94,12 @@ struct FeedCell: View {
                 .foregroundColor(.gray)
                 .padding(.leading, 8)
                 .padding(.top, -2)
+        }
+        .navigationDestination(for: User.self) { user in
+            ProfileView(user: user)
+        }
+        .navigationDestination(for: SearchViewModelConfig.self) { config in
+            UserListView(config: config, searchText: .constant(""))
         }
     }
 }

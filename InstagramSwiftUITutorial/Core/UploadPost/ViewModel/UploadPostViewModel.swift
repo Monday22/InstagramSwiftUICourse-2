@@ -13,7 +13,7 @@ class UploadPostViewModel: ObservableObject {
     @Published var error: Error?
     
     func uploadPost(caption: String, image: UIImage) async throws {
-        guard let user = AuthViewModel.shared.currentUser else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         do {
             guard let imageUrl = try await ImageUploader.uploadImage(image: image, type: .post) else { return }
@@ -22,9 +22,7 @@ class UploadPostViewModel: ObservableObject {
                 "timestamp": Timestamp(date: Date()),
                 "likes": 0,
                 "imageUrl": imageUrl,
-                "ownerUid": user.id ?? "",
-                "ownerImageUrl": user.profileImageUrl,
-                "ownerUsername": user.username
+                "ownerUid": uid,
             ]
             
             let _ = try await COLLECTION_POSTS.addDocument(data: data)
@@ -33,5 +31,9 @@ class UploadPostViewModel: ObservableObject {
             print("DEBUG: Failed to upload image with error \(error.localizedDescription)")
             self.error = error
         }
+    }
+    
+    func updateUserFeeds() {
+        
     }
 }

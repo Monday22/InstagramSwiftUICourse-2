@@ -6,21 +6,69 @@
 //
 
 import SwiftUI
+import PhotosUI
+import FirebaseFirestoreSwift
+import Firebase
 
+@MainActor
 class EditProfileViewModel: ObservableObject {
-    var user: User
+    @Published var user: User
     @Published var uploadComplete = false
+    @Published var selectedImage: PhotosPickerItem? {
+        didSet { Task { await loadImage(fromItem: selectedImage) } }
+    }
+    @Published var profileImage: Image?
+    private var uiImage: UIImage?
     
+    var fullname = ""
+    var bio = ""
+                
     init(user: User) {
         self.user = user
     }
     
     func saveUserBio(_ bio: String) {
-        guard let uid = user.id else { return }
-        
-        COLLECTION_USERS.document(uid).updateData(["bio": bio]) { _ in
+        COLLECTION_USERS.document(user.id).updateData(["bio": bio]) { _ in
             self.user.bio = bio
             self.uploadComplete = true
         }
+    }
+    
+    @MainActor
+    func loadImage(fromItem item: PhotosPickerItem?) async {
+        guard let item = item else { return }
+        
+        guard let data = try? await item.loadTransferable(type: Data.self) else { return }
+        guard let uiImage = UIImage(data: data) else { return }
+        self.uiImage = uiImage
+        self.profileImage = Image(uiImage: uiImage)
+
+    }
+    
+    func updateProfileImage(_ uiImage: UIImage) async throws {
+        let imageUrl = try? await ImageUploader.uploadImage(image: uiImage, type: .profile)
+        self.user.profileImageUrl = imageUrl
+    }
+    
+    func updateUserData() async throws {
+        var data: [String: String] = [:]
+
+        if let uiImage = uiImage {
+            try? await updateProfileImage(uiImage)
+            data["profileImageUrl"] = user.profileImageUrl
+        }
+        
+        
+        if !fullname.isEmpty, user.fullname ?? "" != fullname {
+            user.fullname = fullname
+            data["fullname"] = fullname
+        }
+        
+        if !bio.isEmpty, user.bio ?? "" != bio {
+            user.bio = bio
+            data["bio"] = bio
+        }
+        
+        try await COLLECTION_USERS.document(user.id).updateData(data)
     }
 }

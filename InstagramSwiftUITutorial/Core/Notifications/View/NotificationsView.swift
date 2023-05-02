@@ -8,15 +8,24 @@
 import SwiftUI
 
 struct NotificationsView: View {
-    @ObservedObject var viewModel = NotificationsViewModel()
+    @StateObject var viewModel = NotificationsViewModel()
     
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 20) {
-                ForEach(viewModel.notifications) { notification in
-                    NotificationCell(viewModel: NotificationCellViewModel(notification: notification))
-                        .padding(.top)
+        NavigationStack {
+            ScrollView {
+                LazyVStack(spacing: 20) {
+                    ForEach($viewModel.notifications) { notification in
+                        NotificationCell(notification: notification)
+                            .padding(.top)
+                            .onAppear {
+                                if notification.id == viewModel.notifications.last?.id ?? "" {
+                                    print("DEBUG: paginate here..")
+                                }
+                            }
+                    }
                 }
+                .navigationTitle("Notifications")
+                .navigationBarTitleDisplayMode(.inline)
             }
         }
     }

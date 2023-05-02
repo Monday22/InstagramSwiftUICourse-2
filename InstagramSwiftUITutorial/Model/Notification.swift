@@ -11,8 +11,6 @@ import Firebase
 struct Notification: Identifiable, Decodable {
     @DocumentID var id: String?
     var postId: String?
-    let username: String
-    let profileImageUrl: String
     let timestamp: Timestamp
     let type: NotificationType
     let uid: String

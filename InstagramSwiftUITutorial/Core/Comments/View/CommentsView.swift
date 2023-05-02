@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CommentsView: View {
     @State private var commentText = ""
-    @ObservedObject var viewModel: CommentViewModel
+    @StateObject var viewModel: CommentViewModel
     
     init(post: Post) {
-        self.viewModel = CommentViewModel(post: post)
+        self._viewModel = StateObject(wrappedValue: CommentViewModel(post: post))
     }
     
     var body: some View {
@@ -27,10 +27,14 @@ struct CommentsView: View {
             
             CustomInputView(inputText: $commentText, placeholder: "Comment...", action: uploadComment)
         }
+        .navigationTitle("Comments")
+        .toolbar(.hidden, for: .tabBar)
     }
     
     func uploadComment() {
-        viewModel.uploadComment(commentText: commentText)
-        commentText = ""
+        Task {
+            await viewModel.uploadComment(commentText: commentText)
+            commentText = ""
+        }
     }
 }

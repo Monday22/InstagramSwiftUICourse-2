@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct UserListView: View {
-    @ObservedObject var viewModel: SearchViewModel
+    @StateObject var viewModel: SearchViewModel
+    private let config: SearchViewModelConfig
     @Binding var searchText: String
+    
+    init(config: SearchViewModelConfig, searchText: Binding<String>) {
+        self.config = config
+        self._viewModel = StateObject(wrappedValue: SearchViewModel(config: config))
+        self._searchText = searchText
+    }
     
     var users: [User] {
         return searchText.isEmpty ? viewModel.users : viewModel.filteredUsers(searchText)
@@ -24,10 +31,18 @@ struct UserListView: View {
                         label: {
                             UserCell(user: user)
                                 .padding(.leading)
+                                .onAppear {
+                                    if user.id == users.last?.id ?? "" {
+//                                        viewModel.fetchUsers(forConfig: config)
+                                    }
+                                }
                         })
                 }
+                
             }
+            .navigationTitle(config.navigationTitle)
             .padding(.top)
         }
+        .searchable(text: $searchText, placement: .navigationBarDrawer)
     }
 }

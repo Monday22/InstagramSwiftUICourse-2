@@ -6,30 +6,35 @@
 //
 
 import FirebaseFirestoreSwift
+import Firebase
 
-struct User: Identifiable, Decodable {
-    @DocumentID var id: String?
-    let username: String
+struct User: Identifiable, Codable {
+    @DocumentID var uid: String?
+    var username: String
     let email: String
-    let profileImageUrl: String
-    let fullname: String
+    var profileImageUrl: String?
+    var fullname: String?
     var bio: String?
     var stats: UserStats?
     var isFollowed: Bool? = false
     
-    var isCurrentUser: Bool { return AuthViewModel.shared.userSession?.uid == id }
+    var isCurrentUser: Bool { return Auth.auth().currentUser?.uid == id }
+    var id: String { return uid ?? NSUUID().uuidString }
+}
+
+extension User: Hashable {
+    var identifier: String { return id }
     
-    // this custom init allows us to create a user from message data
-    init(message: Message) {
-        self.username = message.username
-        self.id = message.chatPartnerId
-        self.fullname = message.fullname
-        self.email = ""
-        self.profileImageUrl = message.profileImageUrl
+    public func hash(into hasher: inout Hasher) {
+        return hasher.combine(identifier)
+    }
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id        
     }
 }
 
-struct UserStats: Decodable {
+struct UserStats: Codable {
     var following: Int
     var posts: Int
     var followers: Int

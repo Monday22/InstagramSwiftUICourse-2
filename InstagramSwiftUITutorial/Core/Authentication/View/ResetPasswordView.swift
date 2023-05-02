@@ -29,7 +29,7 @@ struct ResetPasswordView: View {
                     .foregroundColor(.white)
                                     
                 VStack(spacing: 20) {
-                    CustomTextField(text: $email, placeholder: Text("Email"), imageName: "envelope")
+                    CustomTextField(text: $email, placeholder: "Email")
                         .padding()
                         .background(Color(.init(white: 1, alpha: 0.15)))
                         .cornerRadius(10)

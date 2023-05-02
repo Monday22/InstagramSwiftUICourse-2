@@ -6,54 +6,57 @@
 //
 
 import SwiftUI
-import KingfisherSwiftUI
+import Kingfisher
 
 struct ProfileHeaderView: View {
     @ObservedObject var viewModel: ProfileViewModel
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             HStack {
-                KFImage(URL(string: viewModel.user.profileImageUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 80, height: 80)
-                    .clipShape(Circle())
+                CircularProfileImageView(user: viewModel.user, size: .large)
                     .padding(.leading)
                 
                 Spacer()
                 
                 HStack(spacing: 16) {
-                    UserStatView(value: viewModel.user.stats?.posts ?? 0, title: "Posts")
-
-                    NavigationLink(destination: UserListView(viewModel: SearchViewModel(config: .followers(viewModel.user.id ?? "")), searchText: .constant(""))) {
-                        UserStatView(value: viewModel.user.stats?.followers ?? 0, title: "Followers")
-                    }
-                    NavigationLink(destination: UserListView(viewModel: SearchViewModel(config: .following(viewModel.user.id ?? "")), searchText: .constant(""))) {
-                        UserStatView(value: viewModel.user.stats?.following ?? 0, title: "Following")
+                    UserStatView(value: viewModel.user.stats?.posts, title: "Posts")
+                    
+                    NavigationLink(destination: UserListView(config: .followers(viewModel.user.id), searchText: .constant(""))) {
+                        UserStatView(value: viewModel.user.stats?.followers, title: "Followers")
                     }
                     
-                }.padding(.trailing, 32)
+                    NavigationLink(destination: UserListView(config: .following(viewModel.user.id), searchText: .constant("")))  {
+                        UserStatView(value: viewModel.user.stats?.following, title: "Following")
+                    }
+                }
+                .padding(.trailing)
             }
             
-            Text(viewModel.user.fullname)
-                .font(.system(size: 15, weight: .semibold))
-                .padding([.leading, .top])
-            
-            if let bio = viewModel.user.bio {
-                Text(bio)
-                    .font(.system(size: 15))
-                    .padding(.leading)
-                    .padding(.top, 1)
+            VStack(alignment: .leading, spacing: 4) {
+                if let fullname = viewModel.user.fullname {
+                    Text(fullname)
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                        .padding(.leading)
+                }
+                
+                if let bio = viewModel.user.bio {
+                    Text(bio)
+                        .font(.footnote)
+                        .padding(.leading)
+                }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
-            HStack {
-                Spacer()
-                
-                ProfileActionButtonView(viewModel: viewModel)
-                
-                Spacer()
-            }.padding(.top)
+            ProfileActionButtonView(viewModel: viewModel)
+                .padding(.top)
         }
+    }
+}
+
+struct ProfileHeaderView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileHeaderView(viewModel: ProfileViewModel(user: dev.user))
     }
 }

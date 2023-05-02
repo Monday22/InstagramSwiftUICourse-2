@@ -28,10 +28,11 @@ struct ChatView: View {
             }.padding(.top)
             
             CustomInputView(inputText: $messageText, placeholder: "Message...", action: sendMessage)
-                .padding()
+                .padding(10)
             
-        }.navigationTitle(user.username)
-
+        }
+        .navigationTitle(user.username)
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func sendMessage() {

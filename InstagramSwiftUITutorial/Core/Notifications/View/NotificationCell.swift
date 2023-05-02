@@ -6,42 +6,45 @@
 //
 
 import SwiftUI
-import KingfisherSwiftUI
+import Kingfisher
 
 struct NotificationCell: View {
     @ObservedObject var viewModel: NotificationCellViewModel
+    @Binding var notification: Notification
     
-    var isFollowed: Bool { return viewModel.notification.isFollowed ?? false }
-    
-    init(viewModel: NotificationCellViewModel) {
-        self.viewModel = viewModel
+    var isFollowed: Bool {
+        return notification.isFollowed ?? false
     }
     
-    @State private var showPostImage = true
+    init(notification: Binding<Notification>) {
+        self.viewModel = NotificationCellViewModel(notification: notification.wrappedValue)
+        self._notification = notification
+    }
+    
     var body: some View {
-        
         HStack {
-            if let user = viewModel.notification.user {
+            if let user = notification.user {
                 NavigationLink(destination: ProfileView(user: user)) {
-                    KFImage(URL(string: viewModel.notification.profileImageUrl))
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
+                    CircularProfileImageView(user: user, size: .xSmall)
                     
-                    Text(viewModel.notification.username)
-                        .font(.system(size: 14, weight: .semibold)) +
-                        Text(viewModel.notification.type.notificationMessage)
-                        .font(.system(size: 15)) +
-                        Text(" \(viewModel.timestampString)")
-                        .foregroundColor(.gray).font(.system(size: 12))
+                    HStack {
+                        Text(user.username)
+                            .font(.system(size: 14, weight: .semibold)) +
+                        
+                            Text(notification.type.notificationMessage)
+                            .font(.system(size: 14)) +
+                        
+                            Text(" \(viewModel.timestampString)")
+                            .foregroundColor(.gray).font(.system(size: 12))
+                    }
+                    .multilineTextAlignment(.leading)
                 }
             }
             
             Spacer()
             
-            if viewModel.notification.type != .follow {
-                if let post = viewModel.notification.post {
+            if notification.type != .follow {
+                if let post = notification.post {
                     NavigationLink(destination: FeedCell(viewModel: FeedCellViewModel(post: post))) {
                         KFImage(URL(string: post.imageUrl))
                             .resizable()
@@ -53,20 +56,25 @@ struct NotificationCell: View {
             } else {
                 Button(action: {
                     isFollowed ? viewModel.unfollow() : viewModel.follow()
+                    notification.isFollowed?.toggle()
                 }, label: {
                     Text(isFollowed ? "Following" : "Follow")
                         .font(.system(size: 14, weight: .semibold))
                         .frame(width: 100, height: 32)
                         .foregroundColor(isFollowed ? .black : .white)
                         .background(isFollowed ? Color.white : Color.blue)
-                        .cornerRadius(3)
+                        .cornerRadius(6)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 3)
+                            RoundedRectangle(cornerRadius: 6)
                                 .stroke(Color.gray, lineWidth: isFollowed ? 1 : 0)
                         )
                 })
             }
             
-        }.padding(.horizontal)
+        }
+        .padding(.horizontal)
+//        .task {
+//            await viewModel.updateNotificationMetadata()
+//        }
     }
 }

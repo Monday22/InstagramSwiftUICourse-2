@@ -6,26 +6,24 @@
 //
 
 import SwiftUI
-import KingfisherSwiftUI
+import Kingfisher
 
 struct UserCell: View {
     let user: User
     
     var body: some View {
-        HStack {
-            KFImage(URL(string: user.profileImageUrl))
-                .resizable()
-                .scaledToFill()
-                .frame(width: 48, height: 48)
-                .clipShape(Circle())
+        HStack(spacing: 12) {
+            CircularProfileImageView(user: user, size: .small)
             
             VStack(alignment: .leading) {
                 Text(user.username)
                     .font(.system(size: 14, weight: .semibold))
                 
-                Text(user.fullname)
-                    .font(.system(size: 14))
-            }.foregroundColor(.black)
+                if let fullname = user.fullname {
+                    Text(fullname)
+                        .font(.system(size: 14))
+                }
+            }.foregroundColor(Color.theme.systemBackground)
             
             Spacer()
         }
