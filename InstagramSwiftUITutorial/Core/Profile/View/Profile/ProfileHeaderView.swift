@@ -15,6 +15,7 @@ struct ProfileHeaderView: View {
         VStack {
             HStack {
                 CircularProfileImageView(user: viewModel.user, size: .large)
+                    .shadow(color: Color.theme.systemBackground.opacity(0.25), radius: 4)
                     .padding(.leading)
                 
                 Spacer()
@@ -22,13 +23,15 @@ struct ProfileHeaderView: View {
                 HStack(spacing: 16) {
                     UserStatView(value: viewModel.user.stats?.posts, title: "Posts")
                     
-                    NavigationLink(destination: UserListView(config: .followers(viewModel.user.id), searchText: .constant(""))) {
+                    NavigationLink(value: SearchViewModelConfig.followers(viewModel.user.id)) {
                         UserStatView(value: viewModel.user.stats?.followers, title: "Followers")
                     }
+                    .disabled(viewModel.user.stats?.followers == 0)
                     
-                    NavigationLink(destination: UserListView(config: .following(viewModel.user.id), searchText: .constant("")))  {
+                    NavigationLink(value: SearchViewModelConfig.following(viewModel.user.id)) {
                         UserStatView(value: viewModel.user.stats?.following, title: "Following")
                     }
+                    .disabled(viewModel.user.stats?.following == 0)
                 }
                 .padding(.trailing)
             }
@@ -51,6 +54,9 @@ struct ProfileHeaderView: View {
             
             ProfileActionButtonView(viewModel: viewModel)
                 .padding(.top)
+        }
+        .navigationDestination(for: SearchViewModelConfig.self) { config in
+            UserListView(config: config)
         }
     }
 }

@@ -28,8 +28,8 @@ struct MainTabView: View {
                     .tabItem {
                         Image(systemName: "magnifyingglass")
                     }.tag(1)
-                
-                UploadPostView(tabIndex: $selectedIndex)
+                    
+                UploadMediaView(tabIndex: $selectedIndex)
                     .onAppear {
                         selectedIndex = 2
                     }
@@ -45,7 +45,7 @@ struct MainTabView: View {
                         Image(systemName: "heart")
                     }.tag(3)
                 
-                ProfileView(user: user)
+                CurrentUserProfileView(user: user)
                     .onAppear {
                         selectedIndex = 4
                     }
@@ -53,21 +53,7 @@ struct MainTabView: View {
                         Image(systemName: "person")
                     }.tag(4)
             }
-            .navigationTitle(tabTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(
-                leading: selectedIndex == 0 ? logoutButton : nil,
-                trailing: selectedIndex == 0 ? messageLink : nil
-            )
             .accentColor(Color.theme.systemBackground)
-    }
-    
-    var logoutButton: some View {
-        Button {
-            AuthViewModel.shared.signout()
-        } label: {
-            Text("Logout").foregroundColor(.black)
-        }
     }
     
     var messageLink: some View {
@@ -80,16 +66,5 @@ struct MainTabView: View {
                     .scaledToFit()
                     .foregroundColor(.black)
             })
-    }
-    
-    var tabTitle: String {
-        switch selectedIndex {
-        case 0: return "Feed"
-        case 1: return "Explore"
-        case 2: return "New Post"
-        case 3: return "Notifications"
-        case 4: return "Profile"
-        default: return ""
-        }
     }
 }

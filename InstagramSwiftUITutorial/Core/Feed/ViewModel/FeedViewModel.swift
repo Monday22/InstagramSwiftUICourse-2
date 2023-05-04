@@ -13,7 +13,7 @@ class FeedViewModel: ObservableObject {
     @Published var posts = [Post]()
     
     init() {
-        Task { try await fetchPosts() }
+        Task { try await fetchAllPosts() }
     }
         
     private func fetchPostIDs() async -> [String] {
@@ -52,10 +52,18 @@ class FeedViewModel: ObservableObject {
 
 // fetch all posts
 extension FeedViewModel {
-    func fetchAllPosts() async {
+    func fetchAllPosts() async throws {
         let snapshot = try? await COLLECTION_POSTS.order(by: "timestamp", descending: true).getDocuments()
         guard let documents = snapshot?.documents else { return }
-        self.posts = documents.compactMap({ try? $0.data(as: Post.self) })
+        var posts = documents.compactMap({ try? $0.data(as: Post.self) })
+        
+        for i in 0 ..< posts.count {
+            let post = posts[i]
+            async let user = try await UserService.fetchUser(withUid: post.ownerUid)
+            posts[i].user = try await user
+        }
+        
+        self.posts = posts
     }
 }
 

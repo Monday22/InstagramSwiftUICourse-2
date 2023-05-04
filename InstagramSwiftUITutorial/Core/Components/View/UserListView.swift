@@ -10,12 +10,11 @@ import SwiftUI
 struct UserListView: View {
     @StateObject var viewModel: SearchViewModel
     private let config: SearchViewModelConfig
-    @Binding var searchText: String
+    @State private var searchText = ""
     
-    init(config: SearchViewModelConfig, searchText: Binding<String>) {
+    init(config: SearchViewModelConfig) {
         self.config = config
         self._viewModel = StateObject(wrappedValue: SearchViewModel(config: config))
-        self._searchText = searchText
     }
     
     var users: [User] {
@@ -26,17 +25,14 @@ struct UserListView: View {
         ScrollView {
             LazyVStack {
                 ForEach(users) { user in
-                    NavigationLink(
-                        destination: LazyView(ProfileView(user: user)),
-                        label: {
-                            UserCell(user: user)
-                                .padding(.leading)
-                                .onAppear {
-                                    if user.id == users.last?.id ?? "" {
-//                                        viewModel.fetchUsers(forConfig: config)
-                                    }
+                    NavigationLink(value: user) {
+                        UserCell(user: user)
+                            .padding(.leading)
+                            .onAppear {
+                                if user.id == users.last?.id ?? "" {
                                 }
-                        })
+                            }
+                    }
                 }
                 
             }

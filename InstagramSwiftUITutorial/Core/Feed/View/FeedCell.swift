@@ -22,6 +22,7 @@ struct FeedCell: View {
             HStack {
                 if let user = viewModel.post.user {
                     CircularProfileImageView(user: user, size: .xSmall)
+                        .shadow(color: Color.theme.systemBackground.opacity(0.25), radius: 4)
                     
                     NavigationLink(value: user) {
                         Text(user.username)
@@ -94,12 +95,6 @@ struct FeedCell: View {
                 .foregroundColor(.gray)
                 .padding(.leading, 8)
                 .padding(.top, -2)
-        }
-        .navigationDestination(for: User.self) { user in
-            ProfileView(user: user)
-        }
-        .navigationDestination(for: SearchViewModelConfig.self) { config in
-            UserListView(config: config, searchText: .constant(""))
         }
     }
 }

@@ -13,9 +13,12 @@ struct SearchView: View {
     
     var body: some View {
         NavigationStack {
-            UserListView(config: .search, searchText: $searchText)
+            UserListView(config: .search)
                 .navigationTitle("Explore")
                 .navigationBarTitleDisplayMode(.inline)
+                .navigationDestination(for: User.self) { user in
+                    ProfileView(user: user)
+                }
         }
     }
 }

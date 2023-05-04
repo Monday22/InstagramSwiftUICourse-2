@@ -19,6 +19,7 @@ struct UserStatView: View {
             Text(title)
                 .font(.system(size: 15))
         }
+        .opacity(value == 0 ? 0.5 : 1.0)
         .frame(width: 80, alignment: .center)
         .foregroundColor(Color.theme.systemBackground)
     }

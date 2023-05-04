@@ -1,13 +1,13 @@
 //
-//  ProfileView.swift
+//  TabProfileView.swift
 //  InstagramSwiftUITutorial
 //
-//  Created by Stephen Dowless on 12/26/20.
+//  Created by Stephan Dowless on 5/3/23.
 //
 
 import SwiftUI
 
-struct ProfileView: View {
+struct CurrentUserProfileView: View {
     let user: User
     @StateObject var viewModel: ProfileViewModel
     @State private var showSettingsSheet = false
@@ -27,41 +27,42 @@ struct ProfileView: View {
                     
                     PostGridView(config: .profile(user))
                 }
-                .padding(.top)
             }
-            .toolbar(content: {
-                if user.isCurrentUser {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            showSettingsSheet.toggle()
-                        } label: {
-                            Image(systemName: "line.3.horizontal")
-                        }
-                    }
-                }
-            })
+            .navigationTitle("Profile")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $showDetail, destination: {
                 Text(selectedSettingsOption?.title ?? "")
             })
-            .navigationTitle(user.isCurrentUser ? "Profile" : user.username)
-            .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showSettingsSheet) {
                 SettingsView(selectedOption: $selectedSettingsOption)
                     .presentationDetents([.height(CGFloat(SettingsItemModel.allCases.count * 56))])
             }
-        }
-        .onChange(of: selectedSettingsOption) { newValue in
-            if newValue != .logout {
-                self.showDetail.toggle()
-            } else {
-                AuthService.shared.signout()
+            
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        selectedSettingsOption = nil
+                        showSettingsSheet.toggle()
+                    } label: {
+                        Image(systemName: "line.3.horizontal")
+                    }
+                }
+            })
+            .onChange(of: selectedSettingsOption) { newValue in
+                guard let option = newValue else { return }
+                
+                if option != .logout {
+                    self.showDetail.toggle()
+                } else {
+                    AuthService.shared.signout()
+                }
             }
         }
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
+struct CurrentUserProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(user: dev.user)
+        CurrentUserProfileView(user: dev.user)
     }
 }

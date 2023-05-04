@@ -16,17 +16,23 @@ struct FeedView: View {
                 LazyVStack(spacing: 32) {
                     ForEach(viewModel.posts) { post in
                         FeedCell(viewModel: FeedCellViewModel(post: post))
+                        
                     }
                 }
                 .padding(.top)
             }
             .navigationTitle("Feed")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem {
-                    
-                }
+            .refreshable {
+                Task { try await viewModel.fetchAllPosts() }
             }
+            .navigationDestination(for: User.self) { user in
+                ProfileView(user: user)
+            }
+            
+//            .navigationDestination(for: SearchViewModelConfig.self) { config in
+//                UserListView(config: config, searchText: .constant(""))
+//            }
         }
     }
 }

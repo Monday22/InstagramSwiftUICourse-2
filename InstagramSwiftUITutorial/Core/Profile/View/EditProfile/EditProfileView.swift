@@ -10,11 +10,7 @@ import Kingfisher
 import PhotosUI
 
 struct EditProfileView: View {
-    @State private var bio = ""
-    @State private var fullname = ""
     @State private var username = ""
-    @State private var selectedImage: PhotosPickerItem?
-    @State private var profileImage: Image?
 
     @StateObject private var viewModel: EditProfileViewModel
     @Binding var user: User
@@ -24,14 +20,6 @@ struct EditProfileView: View {
         self._user = user
         self._viewModel = StateObject(wrappedValue: EditProfileViewModel(user: user.wrappedValue))
         self._username = State(initialValue: _user.wrappedValue.username)
-        
-        if let bio = _user.wrappedValue.bio {
-            self._bio = State(initialValue: bio)
-        }
-        
-        if let fullname = _user.wrappedValue.fullname {
-            self._fullname = State(initialValue: fullname)
-        }
     }
     
     var body: some View {

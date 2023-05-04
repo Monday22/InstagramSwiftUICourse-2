@@ -73,8 +73,5 @@ struct NotificationCell: View {
             
         }
         .padding(.horizontal)
-//        .task {
-//            await viewModel.updateNotificationMetadata()
-//        }
     }
 }

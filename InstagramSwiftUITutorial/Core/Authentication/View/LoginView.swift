@@ -22,6 +22,7 @@ struct LoginView: View {
                 
                 VStack(spacing: 8) {
                     TextField("Enter your email", text: $email)
+                        .autocapitalization(.none)
                         .modifier(TextFieldModifier())
                     
                     SecureField("Password", text: $password)
@@ -43,9 +44,7 @@ struct LoginView: View {
                 
                 
                 Button(action: {
-                    Task {
-                        try await viewModel.login(withEmail: email, password: password)
-                    }
+                    Task { try await viewModel.login(withEmail: email, password: password) }
                 }, label: {
                     Text("Log In")
                         .modifier(IGButtonModifier())

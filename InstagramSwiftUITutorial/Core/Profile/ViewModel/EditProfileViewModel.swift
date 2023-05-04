@@ -25,6 +25,14 @@ class EditProfileViewModel: ObservableObject {
                 
     init(user: User) {
         self.user = user
+        
+        if let bio = user.bio {
+            self.bio = bio
+        }
+        
+        if let fullname = user.fullname {
+            self.fullname = fullname
+        }
     }
     
     func saveUserBio(_ bio: String) {

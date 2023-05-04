@@ -33,6 +33,7 @@ struct ChatView: View {
         }
         .navigationTitle(user.username)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
     }
     
     func sendMessage() {
