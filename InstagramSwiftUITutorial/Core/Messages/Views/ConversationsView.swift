@@ -11,45 +11,40 @@ struct ConversationsView: View {
     @State var isShowingNewMessageView = false
     @State var showChat = false
     @State var user: User?
-    @ObservedObject var viewModel = ConversationsViewModel()
+    @StateObject var viewModel = ConversationsViewModel()
     
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            ScrollView {
-                VStack {
-                    ForEach(viewModel.recentMessages) { message in
-                        NavigationLink(
-                            destination: Text("Messages")/* */,
-                            label: {
-                                ConversationCell(message: message)
-                            })
+        ScrollView {
+            LazyVStack {
+                ForEach(viewModel.recentMessages) { message in
+                    NavigationLink {
+                        if let user = message.user {
+                            ChatView(user: user)
+                        }
+                    } label: {
+                        ConversationCell(message: message)
                     }
-                }.padding()
+                }
+            }.padding()
+        }
+        .toolbar(.hidden, for: .tabBar)
+        .navigationTitle("Messages")
+        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $isShowingNewMessageView, content: {
+            NewMessageView(show: $isShowingNewMessageView, startChat: $showChat, user: $user)
+        })
+        .toolbar(content: {
+            Button {
+                isShowingNewMessageView.toggle()
+            } label: {
+                Image(systemName: "square.and.pencil")
+                    .imageScale(.large)
+                    .foregroundColor(Color.theme.systemBackground)
             }
             
-            HStack {
-                Spacer()
-                
-                Button(action: { self.isShowingNewMessageView.toggle() }, label: {
-                    Image(systemName: "envelope")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 28, height: 28)
-                        .padding()
-                })
-                .background(Color(.systemBlue))
-                .foregroundColor(.white)
-                .clipShape(Circle())
-                .padding()
-                .sheet(isPresented: $isShowingNewMessageView, content: {
-                    NewMessageView(show: $isShowingNewMessageView, startChat: $showChat, user: $user)
-                })
-            }
-            .navigationTitle("Messages")
-            .navigationBarTitleDisplayMode(.inline)
-        }
+        })
         .onAppear {
-            viewModel.fetchRecentMessages()
+            viewModel.loadData()
         }
         .navigationDestination(isPresented: $showChat) {
             if let user = user {

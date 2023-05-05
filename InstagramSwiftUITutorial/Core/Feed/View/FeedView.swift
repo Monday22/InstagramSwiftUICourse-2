@@ -21,6 +21,22 @@ struct FeedView: View {
                 }
                 .padding(.top)
             }
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    AdaptiveImage(light: "instagram_logo_black", dark: "instagram_logo_white", width: 100, height: 50)
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(
+                        destination: ConversationsView(),
+                        label: {
+                            Image(systemName: "paperplane")
+                                .imageScale(.large)
+                                .scaledToFit()
+                                .foregroundColor(Color.theme.systemBackground)
+                        })
+                }
+            })
             .navigationTitle("Feed")
             .navigationBarTitleDisplayMode(.inline)
             .refreshable {
@@ -29,10 +45,9 @@ struct FeedView: View {
             .navigationDestination(for: User.self) { user in
                 ProfileView(user: user)
             }
-            
-//            .navigationDestination(for: SearchViewModelConfig.self) { config in
-//                UserListView(config: config, searchText: .constant(""))
-//            }
+            .navigationDestination(for: SearchViewModelConfig.self) { config in
+                UserListView(config: config)
+            }
         }
     }
 }

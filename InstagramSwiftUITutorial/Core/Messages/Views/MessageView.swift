@@ -16,33 +16,28 @@ struct MessageView: View {
             if viewModel.isFromCurrentUser {
                 Spacer()
                 Text(viewModel.message.text)
-                    .padding()
+                    .font(.system(size: 15))
+                    .padding(10)
                     .background(Color.blue)
                     .clipShape(ChatBubble(isFromCurrentUser: true))
                     .foregroundColor(.white)
-                    .padding(.horizontal)
                     .padding(.leading, 100)
-                    .padding(.trailing, 16)
-                    .font(.body)
+                    .padding(.trailing)
             } else {
                 HStack(alignment: .bottom) {
-                    KFImage(URL(string: viewModel.message.profileImageUrl))
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
+                    if let user = viewModel.message.user {
+                        CircularProfileImageView(user: user, size: .xSmall)
+                    }
                     
                     Text(viewModel.message.text)
-                        .padding()
+                        .font(.system(size: 15))
+                        .padding(10)
                         .background(Color(.systemGray5))
-                        .font(.body)
                         .clipShape(ChatBubble(isFromCurrentUser: false))
                         .foregroundColor(.black)
-                    
                 }
-                .padding(.horizontal)
                 .padding(.trailing, 100)
-                .padding(.leading, 16)
+                .padding(.leading)
                 
                 Spacer()
             }

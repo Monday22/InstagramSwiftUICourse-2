@@ -14,16 +14,15 @@ struct ConversationCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 12) {
-                KFImage(URL(string: message.profileImageUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .clipped()
-                    .frame(width: 56, height: 56)
-                    .cornerRadius(28)
+                if let user = message.user {
+                    CircularProfileImageView(user: user, size: .small)
+                }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(message.fullname)
-                        .font(.system(size: 14, weight: .semibold))
+                    if let user = message.user {
+                        Text(user.fullname ?? "")
+                            .font(.system(size: 14, weight: .semibold))
+                    }
                     
                     Text(message.text)
                         .font(.system(size: 15))
@@ -37,5 +36,6 @@ struct ConversationCell: View {
             
             Divider()
         }
+        
     }
 }

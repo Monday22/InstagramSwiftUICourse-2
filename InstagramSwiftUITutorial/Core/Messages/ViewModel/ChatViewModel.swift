@@ -20,11 +20,24 @@ class ChatViewModel: ObservableObject {
     func fetchMessages() {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        let query = COLLECTION_MESSAGES.document(currentUid).collection(user.id)
+        let query = COLLECTION_MESSAGES
+            .document(currentUid)
+            .collection(user.id)
+            .order(by: "timestamp", descending: false)
         
         query.addSnapshotListener { snapshot, error in
-            guard let changes = snapshot?.documentChanges.filter({ $0.type == .added }) else { return }            
-            self.messages.append(contentsOf: changes.compactMap({ try? $0.document.data(as: Message.self) })) 
+            guard let changes = snapshot?.documentChanges.filter({ $0.type == .added }) else { return }
+            var newMessages = changes.compactMap({ try? $0.document.data(as: Message.self) })
+            
+            for i in 0 ..< newMessages.count {
+                let chatPartnerId = newMessages[i].chatPartnerId
+                
+                if chatPartnerId != currentUid {
+                    newMessages[i].user = self.user
+                }
+            }
+            
+            self.messages.append(contentsOf: newMessages)
         }
     }
     
@@ -43,9 +56,6 @@ class ChatViewModel: ObservableObject {
                                    "id": messageID,
                                    "fromId": currentUid,
                                    "toId": uid,
-                                   "username": user.username,
-                                   "profileImageUrl": user.profileImageUrl,
-                                   "fullname": user.fullname,
                                    "timestamp": Timestamp(date: Date())]
         
         let recipientData: [String: Any] = ["text": messageText,

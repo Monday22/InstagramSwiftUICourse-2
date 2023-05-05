@@ -33,7 +33,7 @@ struct ProfileActionButtonView: View {
                         Button(action: { isFollowed ? viewModel.unfollow() : viewModel.follow() }, label: {
                             Text(isFollowed ? "Following" : "Follow")
                                 .font(.system(size: 14, weight: .semibold))
-                                .frame(width: 172, height: 32)
+                                .frame(width: 360, height: 32)
                                 .foregroundColor(isFollowed ? .black : .white)
                                 .background(isFollowed ? Color.white : Color.blue)
                                 .overlay(
@@ -42,16 +42,16 @@ struct ProfileActionButtonView: View {
                                 )
                         }).cornerRadius(6)
                         
-                        NavigationLink(destination: ChatView(user: viewModel.user)) {
-                            Text("Message")
-                                .font(.system(size: 14, weight: .semibold))
-                                .frame(width: 172, height: 32)
-                                .foregroundColor(Color.theme.systemBackground)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
-                        }
+//                        NavigationLink(value: viewModel.user) {
+//                            Text("Message")
+//                                .font(.system(size: 14, weight: .semibold))
+//                                .frame(width: 172, height: 32)
+//                                .foregroundColor(Color.theme.systemBackground)
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 6)
+//                                        .stroke(Color.gray, lineWidth: 1)
+//                                )
+//                        }
                     }
                 }
             }

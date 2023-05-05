@@ -11,18 +11,20 @@ struct AdaptiveImage: View {
     @Environment(\.colorScheme) var colorScheme
     let light: String
     let dark: String
+    let width: CGFloat
+    let height: CGFloat
 
     @ViewBuilder var body: some View {
         if colorScheme == .light {
             Image(light)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 220, height: 100)
+                .frame(width: width, height: height)
         } else {
             Image(dark)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 220, height: 100)
+                .frame(width: width, height: height)
         }
     }
 }

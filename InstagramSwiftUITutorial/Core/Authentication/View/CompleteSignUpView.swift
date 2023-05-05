@@ -14,7 +14,7 @@ struct CompleteSignUpView: View {
         VStack(spacing: 12) {
             Spacer()
 
-            Text("Welcome to Instagram, stephan.dowless")
+            Text("Welcome to Instagram, \(viewModel.username)")
                 .font(.title2)
                 .fontWeight(.bold)
                 .padding(.top)

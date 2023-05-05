@@ -18,7 +18,7 @@ struct LoginView: View {
             VStack {
                 Spacer()
                 
-                AdaptiveImage(light: "instagram_logo_black", dark: "instagram_logo_white")
+                AdaptiveImage(light: "instagram_logo_black", dark: "instagram_logo_white", width: 220, height: 100)
                 
                 VStack(spacing: 8) {
                     TextField("Enter your email", text: $email)
