@@ -35,13 +35,6 @@ class EditProfileViewModel: ObservableObject {
         }
     }
     
-    func saveUserBio(_ bio: String) {
-        COLLECTION_USERS.document(user.id).updateData(["bio": bio]) { _ in
-            self.user.bio = bio
-            self.uploadComplete = true
-        }
-    }
-    
     @MainActor
     func loadImage(fromItem item: PhotosPickerItem?) async {
         guard let item = item else { return }
