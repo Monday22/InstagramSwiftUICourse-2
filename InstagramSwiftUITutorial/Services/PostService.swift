@@ -46,7 +46,7 @@ extension PostService {
         async let _ = try await FirestoreConstants.PostsCollection.document(postId).updateData(["likes": post.likes + 1])
         async let _ = try await FirestoreConstants.UserCollection.document(uid).collection("user-likes").document(postId).setData([:])
         
-        async let _ = NotificationsViewModel.uploadNotification(toUid: post.ownerUid, type: .like, post: post)
+        async let _ = NotificationService.uploadNotification(toUid: post.ownerUid, type: .like, post: post)
     }
     
     static func unlikePost(_ post: Post) async throws {
@@ -58,7 +58,7 @@ extension PostService {
         async let _ = try await FirestoreConstants.UserCollection.document(uid).collection("user-likes").document(postId).delete()
         async let _ = try await FirestoreConstants.PostsCollection.document(postId).updateData(["likes": post.likes - 1])
         
-        async let _ = NotificationsViewModel.deleteNotification(toUid: uid, type: .like, postId: postId)
+        async let _ = NotificationService.deleteNotification(toUid: uid, type: .like, postId: postId)
     }
     
     static func checkIfUserLikedPost(_ post: Post) async throws -> Bool {

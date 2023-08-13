@@ -7,67 +7,27 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestoreSwift
 
 @MainActor
 class NotificationsViewModel: ObservableObject {
     @Published var notifications = [Notification]()
+    @Published var isLoading = false
     
     init() {
         Task { try await updateNotifications() }
     }
     
-    private func fetchNotifications() async {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-
-        let query = FirestoreConstants.NotificationsCollection
-            .document(uid).collection("user-notifications")
-            .order(by: "timestamp", descending: true)
-
-        guard let snapshot = try? await query.getDocuments() else { return }
-        self.notifications = snapshot.documents.compactMap({ try? $0.data(as: Notification.self) })
-    }
-    
     func updateNotifications() async throws {
-        await fetchNotifications()
+        isLoading = true
+        notifications = await NotificationService.fetchNotifications()
+        isLoading = false
         
         await withThrowingTaskGroup(of: Void.self, body: { group in
             for notification in notifications {
                 group.addTask { try await self.updateNotificationMetadata(notification: notification) }
             }
         })
-    }
-    
-    static func deleteNotification(toUid uid: String, type: NotificationType, postId: String? = nil) {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        
-        FirestoreConstants.NotificationsCollection.document(uid).collection("user-notifications")
-            .whereField("uid", isEqualTo: currentUid).getDocuments { snapshot, _ in
-                snapshot?.documents.forEach({ document in
-                    let notification = try? document.data(as: Notification.self)
-                    guard notification?.type == type else { return }
-                    
-                    if postId != nil {
-                        guard postId == notification?.postId else { return }
-                    }
-                    
-                    document.reference.delete()
-                })
-            }
-    }
-    
-    static func uploadNotification(toUid uid: String, type: NotificationType, post: Post? = nil) {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        guard uid != currentUid else { return }
-        
-        var data: [String: Any] = ["timestamp": Timestamp(date: Date()),
-                                   "uid": currentUid,
-                                   "type": type.rawValue]
-        
-        if let post = post, let id = post.id {
-            data["postId"] = id
-        }
-        
-        FirestoreConstants.NotificationsCollection.document(uid).collection("user-notifications").addDocument(data: data)
     }
     
     private func updateNotificationMetadata(notification: Notification) async throws {

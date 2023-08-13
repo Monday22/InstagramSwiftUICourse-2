@@ -42,7 +42,7 @@ class CommentViewModel: ObservableObject {
         
         self.comments.insert(comment, at: 0)
 
-        NotificationsViewModel.uploadNotification(toUid: self.post.ownerUid, type: .comment, post: self.post)
+        NotificationService.uploadNotification(toUid: self.post.ownerUid, type: .comment, post: self.post)
     }
     
     func fetchComments() async throws {

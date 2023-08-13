@@ -27,6 +27,11 @@ struct NotificationsView: View {
                 .navigationTitle("Notifications")
                 .navigationBarTitleDisplayMode(.inline)
             }
+            .overlay {
+                if viewModel.isLoading {
+                    ProgressView()
+                }
+            }
         }
     }
 }

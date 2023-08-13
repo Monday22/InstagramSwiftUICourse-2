@@ -91,6 +91,7 @@
 		2BACD58B2A894B3500452A2D /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD58A2A894B3500452A2D /* Timestamp.swift */; };
 		2BACD5922A895A5200452A2D /* SettingsItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD5912A895A5200452A2D /* SettingsItemModel.swift */; };
 		2BACD5942A895A6A00452A2D /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD5932A895A6A00452A2D /* SettingsRowView.swift */; };
+		2BACD59A2A895E2900452A2D /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD5992A895E2900452A2D /* NotificationType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -173,6 +174,7 @@
 		2BACD58A2A894B3500452A2D /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
 		2BACD5912A895A5200452A2D /* SettingsItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItemModel.swift; sourceTree = "<group>"; };
 		2BACD5932A895A6A00452A2D /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
+		2BACD5992A895E2900452A2D /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,9 +326,9 @@
 			isa = PBXGroup;
 			children = (
 				2BACD58C2A894CBB00452A2D /* Model */,
-				2BACD5842A89355700452A2D /* Service */,
 				2BCBD7272986CF050002ABC6 /* View */,
 				2BCBD7262986CEFF0002ABC6 /* ViewModel */,
+				2BACD5842A89355700452A2D /* Service */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -422,6 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				23CA95C525A0E2B200382F7C /* Notification.swift */,
+				2BACD5992A895E2900452A2D /* NotificationType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -857,6 +860,7 @@
 				234578152598FBC000CBA711 /* LoginView.swift in Sources */,
 				2338F7B225AA946800A298FA /* ChatBubble.swift in Sources */,
 				2338F7B525AA947600A298FA /* MessageView.swift in Sources */,
+				2BACD59A2A895E2900452A2D /* NotificationType.swift in Sources */,
 				2338F7BB25AA94DA00A298FA /* ChatViewModel.swift in Sources */,
 				2B9DB95A2A015D97004C4C4F /* Color.swift in Sources */,
 				2BACD5922A895A5200452A2D /* SettingsItemModel.swift in Sources */,
