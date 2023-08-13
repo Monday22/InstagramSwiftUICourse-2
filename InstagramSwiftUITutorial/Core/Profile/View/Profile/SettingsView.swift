@@ -64,6 +64,7 @@ struct SettingsView: View {
             }
             .listStyle(PlainListStyle())
         }
+        .padding(.bottom)
     }
 }
 

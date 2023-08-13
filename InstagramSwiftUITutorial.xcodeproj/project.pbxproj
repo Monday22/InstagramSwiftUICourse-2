@@ -270,13 +270,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		23EA5B5A2597A25E00769D19 /* Main */ = {
+		23EA5B5A2597A25E00769D19 /* Root */ = {
 			isa = PBXGroup;
 			children = (
 				2B6AEA642A02DAA1008D18F4 /* View */,
 				2B9DB93229FD82D1004C4C4F /* ViewModel */,
 			);
-			path = Main;
+			path = Root;
 			sourceTree = "<group>";
 		};
 		23EA5B5F2597A27D00769D19 /* UploadPost */ = {
@@ -455,10 +455,10 @@
 				2BCBD72D2986CFD80002ABC6 /* Components */,
 				23EA5B622597A28D00769D19 /* Comments */,
 				23EA5B612597A28A00769D19 /* Feed */,
-				23EA5B5A2597A25E00769D19 /* Main */,
 				2338F7A325AA40BB00A298FA /* Messages */,
 				23EA5B682597A2E200769D19 /* Notifications */,
 				23EA5B6A2597A2EE00769D19 /* Profile */,
+				23EA5B5A2597A25E00769D19 /* Root */,
 				23EA5B632597A29300769D19 /* Search */,
 				2BACD5892A893D3A00452A2D /* TabBar */,
 				23EA5B5F2597A27D00769D19 /* UploadPost */,

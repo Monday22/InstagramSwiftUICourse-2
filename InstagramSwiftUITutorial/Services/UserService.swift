@@ -7,8 +7,6 @@
 
 import Firebase
 
-//typealias FirestoreCompletion = ((Error?) -> Void)?
-
 class UserService {
     
     @Published var currentUser: User?

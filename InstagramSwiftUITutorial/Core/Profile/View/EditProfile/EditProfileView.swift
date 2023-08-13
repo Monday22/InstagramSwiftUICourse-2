@@ -23,71 +23,68 @@ struct EditProfileView: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                Button("Cancel") {
-                    dismiss()
+        NavigationStack {
+            VStack {
+                VStack(spacing: 8) {
+                    Divider()
+                    
+                    PhotosPicker(selection: $viewModel.selectedImage) {
+                            VStack {
+                                if let image = viewModel.profileImage {
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 72, height: 72)
+                                        .clipShape(Circle())
+                                        .foregroundColor(Color(.systemGray4))
+                                } else {
+                                    CircularProfileImageView(user: user, size: .large)
+                                }
+                                Text("Edit profile picture")
+                                    .font(.footnote)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                    
+                    Divider()
+                }
+                .padding(.bottom, 4)
+                
+                VStack {
+                    EditProfileRowView(title: "Name", placeholder: "Enter your name..", text: $viewModel.fullname)
+                    
+                    EditProfileRowView(title: "Bio", placeholder: "Enter your bio..", text: $viewModel.bio)
                 }
                 
                 Spacer()
-                
-                Text("Edit Profile")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                
-                Spacer()
-                
-                Button {
-                    Task {
-                        try await viewModel.updateUserData()
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
                         dismiss()
                     }
-                } label: {
-                    Text("Done")
-                        .bold()
+                    .font(.subheadline)
                 }
-            }
-            .padding(.horizontal, 8)
-            
-            VStack(spacing: 8) {
-                Divider()
                 
-                PhotosPicker(selection: $viewModel.selectedImage) {
-                        VStack {
-                            if let image = viewModel.profileImage {
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 72, height: 72)
-                                    .clipShape(Circle())
-                                    .foregroundColor(Color(.systemGray4))
-                            } else {
-                                CircularProfileImageView(user: user, size: .large)
-                            }
-                            Text("Edit profile picture")
-                                .font(.footnote)
-                                .fontWeight(.semibold)
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        Task {
+                            try await viewModel.updateUserData()
+                            dismiss()
                         }
                     }
-                    .padding(.vertical, 8)
-                
-                Divider()
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                }
             }
-            .padding(.bottom, 4)
-            
-            VStack {
-                EditProfileRowView(title: "Name", placeholder: "Enter your name..", text: $viewModel.fullname)
-                
-                EditProfileRowView(title: "Bio", placeholder: "Enter your bio..", text: $viewModel.bio)
-            }
-            
-            Spacer()
+            .onReceive(viewModel.$user, perform: { user in
+                self.user = user
+            })
+            .navigationTitle("Edit Profile")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .onReceive(viewModel.$user, perform: { user in
-            self.user = user
-        })
-        .navigationTitle("Edit Profile")
-        .navigationBarTitleDisplayMode(.inline)
+
     }
 }
 

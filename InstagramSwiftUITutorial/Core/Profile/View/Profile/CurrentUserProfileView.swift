@@ -38,7 +38,7 @@ struct CurrentUserProfileView: View {
                     .presentationDetents([.height(CGFloat(SettingsItemModel.allCases.count * 56))])
             }
             
-            .toolbar(content: {
+            .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         selectedSettingsOption = nil
@@ -47,7 +47,7 @@ struct CurrentUserProfileView: View {
                         Image(systemName: "line.3.horizontal")
                     }
                 }
-            })
+            }
             .onChange(of: selectedSettingsOption) { newValue in
                 guard let option = newValue else { return }
                 
