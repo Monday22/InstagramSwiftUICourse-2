@@ -18,7 +18,7 @@ class FeedViewModel: ObservableObject {
         
     private func fetchPostIDs() async -> [String] {
         guard let uid = Auth.auth().currentUser?.uid else { return [] }
-        let snapshot = try? await COLLECTION_USERS.document(uid).collection("user-feed").getDocuments()
+        let snapshot = try? await FirestoreConstants.UserCollection.document(uid).collection("user-feed").getDocuments()
         return snapshot?.documents.map({ $0.documentID }) ?? []
     }
     
@@ -53,7 +53,7 @@ class FeedViewModel: ObservableObject {
 // fetch all posts
 extension FeedViewModel {
     func fetchAllPosts() async throws {
-        let snapshot = try? await COLLECTION_POSTS.order(by: "timestamp", descending: true).getDocuments()
+        let snapshot = try? await FirestoreConstants.PostsCollection.order(by: "timestamp", descending: true).getDocuments()
         guard let documents = snapshot?.documents else { return }
         self.posts = documents.compactMap({ try? $0.data(as: Post.self) })
         
@@ -91,10 +91,10 @@ extension FeedViewModel {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         var posts = [Post]()
         
-        let snapshot = try? await COLLECTION_USERS.document(uid).collection("user-feed").getDocuments()
+        let snapshot = try? await FirestoreConstants.UserCollection.document(uid).collection("user-feed").getDocuments()
         guard let postIDs = snapshot?.documents.map({ $0.documentID }) else { return }
         for id in postIDs {
-            let postSnapshot = try? await COLLECTION_POSTS.document(id).getDocument()
+            let postSnapshot = try? await FirestoreConstants.PostsCollection.document(id).getDocument()
             guard let post = try? postSnapshot?.data(as: Post.self) else { return }
             posts.append(post)
         }

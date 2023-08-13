@@ -33,7 +33,7 @@ class PostGridViewModel: ObservableObject {
     }
     
     func fetchExplorePagePosts() {
-        let query = COLLECTION_POSTS.limit(to: 20).order(by: "timestamp", descending: true)
+        let query = FirestoreConstants.PostsCollection.limit(to: 20).order(by: "timestamp", descending: true)
         
         if let last = lastDoc {
             let next = query.start(afterDocument: last)

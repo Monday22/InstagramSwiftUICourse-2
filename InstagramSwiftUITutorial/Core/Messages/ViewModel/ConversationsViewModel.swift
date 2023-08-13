@@ -15,7 +15,7 @@ class ConversationsViewModel: ObservableObject {
     func fetchRecentMessages() async throws -> [Message] {
         guard let uid = Auth.auth().currentUser?.uid else { return [] }
 
-        let query = COLLECTION_MESSAGES
+        let query = FirestoreConstants.MessagesCollection
             .document(uid)
             .collection("recent-messages")
             .order(by: "timestamp", descending: true)

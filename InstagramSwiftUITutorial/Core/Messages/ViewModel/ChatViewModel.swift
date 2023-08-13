@@ -20,7 +20,7 @@ class ChatViewModel: ObservableObject {
     func fetchMessages() {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        let query = COLLECTION_MESSAGES
+        let query = FirestoreConstants.MessagesCollection
             .document(currentUid)
             .collection(user.id)
             .order(by: "timestamp", descending: false)
@@ -45,10 +45,10 @@ class ChatViewModel: ObservableObject {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         let uid = user.id
         
-        let currentUserRef = COLLECTION_MESSAGES.document(currentUid).collection(uid).document()
-        let receivingUserRef = COLLECTION_MESSAGES.document(uid).collection(currentUid)
-        let receivingRecentRef = COLLECTION_MESSAGES.document(uid).collection("recent-messages")
-        let currentRecentRef =  COLLECTION_MESSAGES.document(currentUid).collection("recent-messages")
+        let currentUserRef = FirestoreConstants.MessagesCollection.document(currentUid).collection(uid).document()
+        let receivingUserRef = FirestoreConstants.MessagesCollection.document(uid).collection(currentUid)
+        let receivingRecentRef = FirestoreConstants.MessagesCollection.document(uid).collection("recent-messages")
+        let currentRecentRef =  FirestoreConstants.MessagesCollection.document(currentUid).collection("recent-messages")
         
         let messageID = currentUserRef.documentID
         

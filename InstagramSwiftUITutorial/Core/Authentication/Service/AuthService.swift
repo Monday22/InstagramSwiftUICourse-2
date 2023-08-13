@@ -42,7 +42,7 @@ class AuthService {
                 "id": result.user.uid
             ]
             
-            try await COLLECTION_USERS.document(result.user.uid).setData(data)
+            try await FirestoreConstants.UserCollection.document(result.user.uid).setData(data)
             self.user = try await UserService.fetchUser(withUid: result.user.uid)
         } catch {
             print("DEBUG: Failed to create user with error: \(error.localizedDescription)")
@@ -56,6 +56,10 @@ class AuthService {
         if let session = userSession {
             self.user = try await UserService.fetchUser(withUid: session.uid)
         }
+    }
+    
+    func sendResetPasswordLink(toEmail email: String) async throws {
+        try await Auth.auth().sendPasswordReset(withEmail: email)
     }
     
     func signout() {

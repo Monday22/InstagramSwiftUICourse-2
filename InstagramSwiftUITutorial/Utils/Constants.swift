@@ -7,9 +7,17 @@
 
 import Firebase
 
-let COLLECTION_USERS = Firestore.firestore().collection("users")
-let COLLECTION_FOLLOWERS = Firestore.firestore().collection("followers")
-let COLLECTION_FOLLOWING = Firestore.firestore().collection("following")
-let COLLECTION_POSTS = Firestore.firestore().collection("posts")
-let COLLECTION_NOTIFICATIONS = Firestore.firestore().collection("notifications")
-let COLLECTION_MESSAGES = Firestore.firestore().collection("messages")
+struct FirestoreConstants {
+    private static let Root = Firestore.firestore()
+    
+    static let UserCollection = Root.collection("users")
+    
+    static let PostsCollection = Root.collection("posts")
+    
+    static let FollowersCollection = Root.collection("followers")
+    static let FollowingCollection = Root.collection("following")
+    
+    static let NotificationsCollection = Root.collection("notifications")
+    
+    static let MessagesCollection = Root.collection("messages")
+}

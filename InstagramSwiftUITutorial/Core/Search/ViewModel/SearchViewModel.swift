@@ -44,7 +44,7 @@ class SearchViewModel: ObservableObject {
     
     func fetchUsers() async {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        let query = COLLECTION_USERS.limit(to: 20)
+        let query = FirestoreConstants.UserCollection.limit(to: 20)
                 
         if let last = lastDoc {
             let next = query.start(afterDocument: last)
@@ -75,17 +75,17 @@ class SearchViewModel: ObservableObject {
     }
     
     private func fetchPostLikesUsers(forPostId postId: String) async throws {
-        guard let snapshot = try? await COLLECTION_POSTS.document(postId).collection("post-likes").getDocuments() else { return }
+        guard let snapshot = try? await FirestoreConstants.PostsCollection.document(postId).collection("post-likes").getDocuments() else { return }
         try await fetchUsers(snapshot)
     }
     
     private func fetchFollowerUsers(forUid uid: String) async throws {
-        guard let snapshot = try? await COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments() else { return }
+        guard let snapshot = try? await FirestoreConstants.FollowersCollection.document(uid).collection("user-followers").getDocuments() else { return }
         try await fetchUsers(snapshot)
     }
     
     private func fetchFollowingUsers(forUid uid: String) async throws {
-        guard let snapshot = try? await COLLECTION_FOLLOWING.document(uid).collection("user-following").getDocuments() else { return }
+        guard let snapshot = try? await FirestoreConstants.FollowingCollection.document(uid).collection("user-following").getDocuments() else { return }
         try await fetchUsers(snapshot)
     }
     

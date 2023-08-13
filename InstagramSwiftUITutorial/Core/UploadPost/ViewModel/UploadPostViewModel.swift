@@ -33,7 +33,7 @@ class UploadPostViewModel: ObservableObject {
                 "ownerUid": uid,
             ]
             
-            let _ = try await COLLECTION_POSTS.addDocument(data: data)
+            let _ = try await FirestoreConstants.PostsCollection.addDocument(data: data)
             self.didUploadPost = true
         } catch {
             print("DEBUG: Failed to upload image with error \(error.localizedDescription)")

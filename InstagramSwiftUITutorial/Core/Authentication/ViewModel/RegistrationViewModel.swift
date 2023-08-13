@@ -25,7 +25,7 @@ class RegistrationViewModel: ObservableObject {
     func validateEmail() async throws {
         self.isLoading = true
         self.emailValidationFailed = false 
-        let snapshot = try await COLLECTION_USERS.whereField("email", isEqualTo: email).getDocuments()
+        let snapshot = try await FirestoreConstants.UserCollection.whereField("email", isEqualTo: email).getDocuments()
         self.emailValidationFailed = !snapshot.isEmpty
         self.emailIsValid = snapshot.isEmpty
         self.isLoading = false
@@ -34,7 +34,7 @@ class RegistrationViewModel: ObservableObject {
     @MainActor
     func validateUsername() async throws {
         self.isLoading = true
-        let snapshot = try await COLLECTION_USERS.whereField("username", isEqualTo: username).getDocuments()
+        let snapshot = try await FirestoreConstants.UserCollection.whereField("username", isEqualTo: username).getDocuments()
         self.usernameIsValid = snapshot.isEmpty
         self.isLoading = false
     }

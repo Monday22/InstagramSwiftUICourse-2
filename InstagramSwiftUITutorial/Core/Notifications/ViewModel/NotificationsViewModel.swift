@@ -19,7 +19,7 @@ class NotificationsViewModel: ObservableObject {
     private func fetchNotifications() async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
-        let query = COLLECTION_NOTIFICATIONS
+        let query = FirestoreConstants.NotificationsCollection
             .document(uid).collection("user-notifications")
             .order(by: "timestamp", descending: true)
 
@@ -40,7 +40,7 @@ class NotificationsViewModel: ObservableObject {
     static func deleteNotification(toUid uid: String, type: NotificationType, postId: String? = nil) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        COLLECTION_NOTIFICATIONS.document(uid).collection("user-notifications")
+        FirestoreConstants.NotificationsCollection.document(uid).collection("user-notifications")
             .whereField("uid", isEqualTo: currentUid).getDocuments { snapshot, _ in
                 snapshot?.documents.forEach({ document in
                     let notification = try? document.data(as: Notification.self)
@@ -67,7 +67,7 @@ class NotificationsViewModel: ObservableObject {
             data["postId"] = id
         }
         
-        COLLECTION_NOTIFICATIONS.document(uid).collection("user-notifications").addDocument(data: data)
+        FirestoreConstants.NotificationsCollection.document(uid).collection("user-notifications").addDocument(data: data)
     }
     
     private func updateNotificationMetadata(notification: Notification) async throws {
@@ -82,7 +82,7 @@ class NotificationsViewModel: ObservableObject {
         }
 
         if let postId = notification.postId {
-            async let postSnapshot = await COLLECTION_POSTS.document(postId).getDocument()
+            async let postSnapshot = await FirestoreConstants.PostsCollection.document(postId).getDocument()
             self.notifications[indexOfNotification].post = try? await postSnapshot.data(as: Post.self)
         }
     }

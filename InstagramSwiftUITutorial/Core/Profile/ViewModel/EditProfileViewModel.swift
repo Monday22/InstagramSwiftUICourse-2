@@ -70,6 +70,6 @@ class EditProfileViewModel: ObservableObject {
             data["bio"] = bio
         }
         
-        try await COLLECTION_USERS.document(user.id).updateData(data)
+        try await FirestoreConstants.UserCollection.document(user.id).updateData(data)
     }
 }

@@ -17,7 +17,7 @@ class UserListViewModel: ObservableObject {
     
     func fetchUsers() async {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        let query = COLLECTION_USERS.limit(to: 20)
+        let query = FirestoreConstants.UserCollection.limit(to: 20)
                 
 //        if let last = lastDoc {
 //            let next = query.start(afterDocument: last)

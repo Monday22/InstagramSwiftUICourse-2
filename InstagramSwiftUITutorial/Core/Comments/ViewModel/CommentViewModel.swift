@@ -22,22 +22,27 @@ class CommentViewModel: ObservableObject {
     }
     
     func uploadComment(commentText: String) async {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let currentUser = AuthViewModel.shared.currentUser else { return }
-        
-        let data: [String: Any] = ["commentOwnerUid": uid,
-                                   "timestamp": Timestamp(date: Date()),
-                                   "postOwnerUid": post.ownerUid,
-                                   "postId": postId,
-                                   "commentText": commentText]
-        
-        let _ = try? await COLLECTION_POSTS.document(postId).collection("post-comments").addDocument(data: data)
-        NotificationsViewModel.uploadNotification(toUid: self.post.ownerUid, type: .comment, post: self.post)
-        self.comments.insert(Comment(user: currentUser, data: data), at: 0)
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        guard let currentUser = AuthViewModel.shared.currentUser else { return }
+//
+//        let data: [String: Any] = ["commentOwnerUid": uid,
+//                                   "timestamp": Timestamp(date: Date()),
+//                                   "postOwnerUid": post.ownerUid,
+//                                   "postId": postId,
+//                                   "commentText": commentText]
+//
+//        let _ = try? await COLLECTION_POSTS.document(postId).collection("post-comments").addDocument(data: data)
+//        NotificationsViewModel.uploadNotification(toUid: self.post.ownerUid, type: .comment, post: self.post)
+//        self.comments.insert(Comment(user: currentUser, data: data), at: 0)
     }
     
     func fetchComments() async throws {
-        let query = COLLECTION_POSTS.document(postId).collection("post-comments").order(by: "timestamp", descending: true)
+        let query = FirestoreConstants
+            .PostsCollection
+            .document(postId)
+            .collection("post-comments")
+            .order(by: "timestamp", descending: true)
+        
         guard let commentSnapshot = try? await query.getDocuments() else { return }
         let documentData = commentSnapshot.documents.compactMap({ $0.data() })
         
@@ -54,15 +59,15 @@ class CommentViewModel: ObservableObject {
 
 extension CommentViewModel {
     func deleteAllComments() {
-        COLLECTION_POSTS.getDocuments { snapshot, _ in
+        FirestoreConstants.PostsCollection.getDocuments { snapshot, _ in
             guard let postIDs = snapshot?.documents.compactMap({ $0.documentID }) else { return }
             
             for id in postIDs {
-                COLLECTION_POSTS.document(id).collection("post-comments").getDocuments { snapshot, _ in
+                FirestoreConstants.PostsCollection.document(id).collection("post-comments").getDocuments { snapshot, _ in
                     guard let commentIDs = snapshot?.documents.compactMap({ $0.documentID }) else { return }
                     
                     for commentId in commentIDs {
-                        COLLECTION_POSTS.document(id).collection("post-comments").document(commentId).delete()
+                        FirestoreConstants.PostsCollection.document(id).collection("post-comments").document(commentId).delete()
                     }
                 }
             }

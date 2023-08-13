@@ -38,13 +38,13 @@ class ProfileViewModel: ObservableObject {
     func fetchUserStats() async throws -> UserStats{
         let uid = user.id
         
-        async let followingSnapshot = try await COLLECTION_FOLLOWING.document(uid).collection("user-following").getDocuments()
+        async let followingSnapshot = try await FirestoreConstants.FollowingCollection.document(uid).collection("user-following").getDocuments()
         let following = try await followingSnapshot.count
         
-        async let followerSnapshot = try await COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments()
+        async let followerSnapshot = try await FirestoreConstants.FollowersCollection.document(uid).collection("user-followers").getDocuments()
         let followers = try await followerSnapshot.count
         
-        async let postSnapshot = try await COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid).getDocuments()
+        async let postSnapshot = try await FirestoreConstants.PostsCollection.whereField("ownerUid", isEqualTo: uid).getDocuments()
         let posts = try await postSnapshot.count
         
         return .init(following: following, posts: posts, followers: followers)
