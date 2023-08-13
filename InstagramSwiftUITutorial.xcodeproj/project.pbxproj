@@ -350,7 +350,6 @@
 			isa = PBXGroup;
 			children = (
 				23EA5B5B2597A26900769D19 /* ContentView.swift */,
-				23EA5B6B2597A3E800769D19 /* MainTabView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -425,6 +424,14 @@
 			path = ViewModifiers;
 			sourceTree = "<group>";
 		};
+		2BACD5892A893D3A00452A2D /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				23EA5B6B2597A3E800769D19 /* MainTabView.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		2BCBD7192986CDFF0002ABC6 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,6 +444,7 @@
 				23EA5B682597A2E200769D19 /* Notifications */,
 				23EA5B6A2597A2EE00769D19 /* Profile */,
 				23EA5B632597A29300769D19 /* Search */,
+				2BACD5892A893D3A00452A2D /* TabBar */,
 				23EA5B5F2597A27D00769D19 /* UploadPost */,
 			);
 			path = Core;
