@@ -67,7 +67,7 @@ extension FeedViewModel {
 //        self.posts = posts
     }
     
-    func fetchPostsWithUserData() async throws {
+    func fetchAllPostsWithUserData() async throws {
         try await fetchAllPosts()
         
         await withThrowingTaskGroup(of: Void.self, body: { group in
@@ -91,8 +91,14 @@ extension FeedViewModel {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         var posts = [Post]()
         
-        let snapshot = try? await FirestoreConstants.UserCollection.document(uid).collection("user-feed").getDocuments()
+        let snapshot = try? await FirestoreConstants
+            .UserCollection
+            .document(uid)
+            .collection("user-feed")
+            .getDocuments()
+        
         guard let postIDs = snapshot?.documents.map({ $0.documentID }) else { return }
+        
         for id in postIDs {
             let postSnapshot = try? await FirestoreConstants.PostsCollection.document(id).getDocument()
             guard let post = try? postSnapshot?.data(as: Post.self) else { return }

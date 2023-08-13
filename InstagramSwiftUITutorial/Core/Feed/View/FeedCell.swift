@@ -58,7 +58,7 @@ struct FeedCell: View {
                         .padding(4)
                 })
                 
-                NavigationLink(destination: CommentsView(post: viewModel.post)) {
+                NavigationLink(destination: CommentsView(post: post)) {
                     Image(systemName: "bubble.right")
                         .resizable()
                         .scaledToFill()
@@ -78,7 +78,6 @@ struct FeedCell: View {
                         .foregroundColor(Color.theme.systemBackground)
                 })
             }
-            .zIndex(1)
             .padding(.leading, 4)
             
             NavigationLink(value: SearchViewModelConfig.likes(viewModel.post.id ?? "")) {

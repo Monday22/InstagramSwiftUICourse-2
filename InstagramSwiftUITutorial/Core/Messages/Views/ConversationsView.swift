@@ -30,8 +30,8 @@ struct ConversationsView: View {
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Messages")
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $isShowingNewMessageView, content: {
-            NewMessageView(show: $isShowingNewMessageView, startChat: $showChat, user: $user)
+        .fullScreenCover(isPresented: $isShowingNewMessageView, content: {
+            NewMessageView(startChat: $showChat, user: $user)
         })
         .toolbar(content: {
             Button {
