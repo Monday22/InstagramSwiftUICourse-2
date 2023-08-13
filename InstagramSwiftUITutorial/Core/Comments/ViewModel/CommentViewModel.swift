@@ -24,7 +24,7 @@ class CommentViewModel: ObservableObject {
     
     func uploadComment(commentText: String) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let comment = Comment(
+        var comment = Comment(
             postOwnerUid: post.ownerUid,
             commentText: commentText,
             postId: postId,

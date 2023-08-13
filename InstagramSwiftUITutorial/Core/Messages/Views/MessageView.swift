@@ -26,7 +26,6 @@ struct MessageView: View {
             } else {
                 HStack(alignment: .bottom) {
                     CircularProfileImageView(user: viewModel.message.user, size: .xSmall)
-
                     
                     Text(viewModel.message.text)
                         .font(.system(size: 15))

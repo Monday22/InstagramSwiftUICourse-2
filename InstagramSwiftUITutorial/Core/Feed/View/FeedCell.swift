@@ -17,18 +17,19 @@ struct FeedCell: View {
         self.viewModel = viewModel
     }
     
+    private var user: User? {
+        return viewModel.post.user
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                if let user = viewModel.post.user {
-                    CircularProfileImageView(user: user, size: .xSmall)
-                        .shadow(color: Color.theme.systemBackground.opacity(0.25), radius: 4)
-                    
-                    NavigationLink(value: user) {
-                        Text(user.username)
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(Color.theme.systemBackground)
-                    }
+                CircularProfileImageView(user: user, size: .xSmall)
+                
+                NavigationLink(value: user) {
+                    Text(user?.username ?? "")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(Color.theme.systemBackground)
                 }
             }
             .padding([.leading, .bottom], 8)

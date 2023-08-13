@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 enum ProfileImageSize {
+    case xxSmall
     case xSmall
     case small
     case medium
@@ -16,14 +17,11 @@ enum ProfileImageSize {
     
     var dimension: CGFloat {
         switch self {
-        case .xSmall:
-            return 36
-        case .small:
-            return 48
-        case .medium:
-            return 64
-        case .large:
-            return 80
+        case .xxSmall: return 28
+        case .xSmall: return 36
+        case .small: return 48
+        case .medium: return 64
+        case .large: return 80
         }
     }
 }
@@ -39,7 +37,6 @@ struct CircularProfileImageView: View {
                 .scaledToFill()
                 .frame(width: size.dimension, height: size.dimension)
                 .clipShape(Circle())
-                .foregroundColor(Color(.systemGray4))
         } else {
             Image(systemName: "person.circle.fill")
                 .resizable()

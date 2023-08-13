@@ -15,7 +15,6 @@ struct ProfileHeaderView: View {
         VStack {
             HStack {
                 CircularProfileImageView(user: viewModel.user, size: .large)
-                    .shadow(color: Color.theme.systemBackground.opacity(0.25), radius: 4)
                     .padding(.leading)
                 
                 Spacer()

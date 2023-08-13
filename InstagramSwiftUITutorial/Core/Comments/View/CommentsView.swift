@@ -18,14 +18,20 @@ struct CommentsView: View {
     var body: some View {
         VStack {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 24) {
+                LazyVStack(alignment: .leading, spacing: 32) {
                     ForEach(viewModel.comments) { comment in
                         CommentCell(comment: comment)
                     }
                 }
             }.padding(.top)
             
-            CustomInputView(inputText: $commentText, placeholder: "Comment...", action: uploadComment)
+            Divider()
+                .padding(.bottom)
+            
+            CustomInputView(inputText: $commentText,
+                             placeholder: "Add a comment...",
+                             buttonTitle: "Post",
+                             action: uploadComment)
         }
         .navigationTitle("Comments")
         .toolbar(.hidden, for: .tabBar)

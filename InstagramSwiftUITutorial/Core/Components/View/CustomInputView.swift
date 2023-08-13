@@ -10,30 +10,28 @@ import SwiftUI
 struct CustomInputView: View {
     @Binding var inputText: String
     let placeholder: String
-    
+    let buttonTitle: String
     var action: () -> Void
     
     var body: some View {
-        VStack {
-            Rectangle()
-                .foregroundColor(Color(.separator))
-                .frame(width: UIScreen.main.bounds.width, height: 0.75)
-                .padding(.bottom, 8)
+        ZStack(alignment: .trailing) {
+            TextField(placeholder, text: $inputText, axis: .vertical)
+                .padding(12)
+                .padding(.leading, 4)
+                .padding(.trailing, 48)
+                .background(Color(.systemGroupedBackground))
+                .clipShape(Capsule())
+                .font(.subheadline)
             
-            HStack {
-                TextField(placeholder, text: $inputText)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .font(.body)
-                    .frame(minHeight: 30)
-                
-                Button(action: action) {
-                    Text("Send")
-                        .bold()
-                        .foregroundColor(.black)
-                }
+            Button(action: action) {
+                Text(buttonTitle)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(.systemBlue))
             }
-            .padding(.bottom, 8)
             .padding(.horizontal)
         }
+        .padding(.horizontal)
+        .padding(.bottom, 8)
     }
 }

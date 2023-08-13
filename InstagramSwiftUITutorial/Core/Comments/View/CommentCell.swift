@@ -13,16 +13,20 @@ struct CommentCell: View {
     
     var body: some View {
         HStack {
-            CircularProfileImageView(user: comment.user, size: .xSmall)
+            CircularProfileImageView(user: comment.user, size: .xxSmall)
             
-            Text(comment.user?.username ?? "").font(.system(size: 14, weight: .semibold)) +
-                Text(" \(comment.commentText)").font(.system(size: 14))
-            
-            Spacer()
-            
-            Text(" \(comment.timestampString ?? "")")
-                .foregroundColor(.gray)
-                .font(.system(size: 12))
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 2) {
+                    Text(comment.user?.username ?? "")
+                        .fontWeight(.semibold)
+                    
+                    Text(comment.timestampString ?? "")
+                        .foregroundColor(.gray)
+                }
+                
+                Text(comment.commentText)
+            }
+            .font(.caption)
         }.padding(.horizontal)
     }
 }

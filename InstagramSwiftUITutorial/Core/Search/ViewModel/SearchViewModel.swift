@@ -54,7 +54,9 @@ class SearchViewModel: ObservableObject {
         } else {
             guard let snapshot = try? await query.getDocuments() else { return }
             self.lastDoc = snapshot.documents.last
-            self.users = snapshot.documents.compactMap({ try? $0.data(as: User.self) })//.filter({ $0.id != currentUid })
+            self.users = snapshot.documents
+                .compactMap({ try? $0.data(as: User.self) })
+                .filter({ $0.id != currentUid })
         }
     }
     
@@ -68,7 +70,6 @@ class SearchViewModel: ObservableObject {
             case .likes(let postId):
                 try await fetchPostLikesUsers(forPostId: postId)
             case .search, .newMessage:
-                print("DEBUG: Fetching users..")
                 await fetchUsers()
             }
         }
