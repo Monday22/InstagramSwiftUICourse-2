@@ -16,14 +16,16 @@ class NotificationCellViewModel: ObservableObject {
     }
     
     func follow() {
-        UserService.follow(uid: notification.uid) { _ in
+        Task {
+            try await UserService.follow(uid: notification.uid)
             NotificationsViewModel.uploadNotification(toUid: self.notification.uid, type: .follow)
             self.notification.isFollowed = true
         }
     }
     
     func unfollow() {
-        UserService.unfollow(uid: notification.uid) { _ in
+        Task {
+            try await UserService.unfollow(uid: notification.uid)
             self.notification.isFollowed = false
         }
     }
