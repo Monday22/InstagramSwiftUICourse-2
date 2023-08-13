@@ -13,13 +13,13 @@ struct CommentCell: View {
     
     var body: some View {
         HStack {
-            KFImage(URL(string: comment.profileImageUrl))
+            KFImage(URL(string: comment.user?.profileImageUrl ?? ""))
                 .resizable()
                 .scaledToFill()
                 .frame(width: 36, height: 36)
                 .clipShape(Circle())
             
-            Text(comment.username).font(.system(size: 14, weight: .semibold)) +
+            Text(comment.user?.username ?? "").font(.system(size: 14, weight: .semibold)) +
                 Text(" \(comment.commentText)").font(.system(size: 14))
             
             Spacer()

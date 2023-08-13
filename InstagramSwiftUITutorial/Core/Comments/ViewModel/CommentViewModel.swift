@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestoreSwift
 
 @MainActor
 class CommentViewModel: ObservableObject {
@@ -21,19 +22,27 @@ class CommentViewModel: ObservableObject {
         Task { try await fetchComments() }
     }
     
-    func uploadComment(commentText: String) async {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        guard let currentUser = AuthViewModel.shared.currentUser else { return }
-//
-//        let data: [String: Any] = ["commentOwnerUid": uid,
-//                                   "timestamp": Timestamp(date: Date()),
-//                                   "postOwnerUid": post.ownerUid,
-//                                   "postId": postId,
-//                                   "commentText": commentText]
-//
-//        let _ = try? await COLLECTION_POSTS.document(postId).collection("post-comments").addDocument(data: data)
-//        NotificationsViewModel.uploadNotification(toUid: self.post.ownerUid, type: .comment, post: self.post)
-//        self.comments.insert(Comment(user: currentUser, data: data), at: 0)
+    func uploadComment(commentText: String) async throws {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let comment = Comment(
+            postOwnerUid: post.ownerUid,
+            commentText: commentText,
+            postId: postId,
+            timestamp: Timestamp(),
+            commentOwnerUid: uid
+        )
+        
+        guard let commentData = try? Firestore.Encoder().encode(comment) else { return }
+        
+        let _ = try await FirestoreConstants
+            .PostsCollection
+            .document(postId)
+            .collection("post-comments")
+            .addDocument(data: commentData)
+        
+        self.comments.insert(comment, at: 0)
+
+        NotificationsViewModel.uploadNotification(toUid: self.post.ownerUid, type: .comment, post: self.post)
     }
     
     func fetchComments() async throws {
@@ -43,14 +52,13 @@ class CommentViewModel: ObservableObject {
             .collection("post-comments")
             .order(by: "timestamp", descending: true)
         
-        guard let commentSnapshot = try? await query.getDocuments() else { return }
-        let documentData = commentSnapshot.documents.compactMap({ $0.data() })
+        guard let snapshot = try? await query.getDocuments() else { return }
+        self.comments = snapshot.documents.compactMap({ try? $0.data(as: Comment.self) })
         
-        for data in documentData {
-            guard let uid = data ["commentOwnerUid"] as? String else { return }
-            let user = try await UserService.fetchUser(withUid: uid) 
-            let comment = Comment(user: user, data: data)
-            self.comments.append(comment)
+        for i in 0 ..< comments.count {
+            let comment = comments[i]
+            let user = try await UserService.fetchUser(withUid: comment.commentOwnerUid)
+            comments[i].user = user
         }
     }
 }

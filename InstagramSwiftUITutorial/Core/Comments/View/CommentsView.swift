@@ -33,7 +33,7 @@ struct CommentsView: View {
     
     func uploadComment() {
         Task {
-            await viewModel.uploadComment(commentText: commentText)
+            try await viewModel.uploadComment(commentText: commentText)
             commentText = ""
         }
     }

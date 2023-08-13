@@ -88,6 +88,7 @@
 		2B9DB9362A000266004C4C4F /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DB9352A000266004C4C4F /* CircularProfileImageView.swift */; };
 		2B9DB95A2A015D97004C4C4F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DB9592A015D97004C4C4F /* Color.swift */; };
 		2B9DB95C2A01967D004C4C4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DB95B2A01967D004C4C4F /* SettingsView.swift */; };
+		2BACD5882A89388900452A2D /* TextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD5872A89388900452A2D /* TextFieldModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -167,6 +168,7 @@
 		2B9DB9352A000266004C4C4F /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		2B9DB9592A015D97004C4C4F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		2B9DB95B2A01967D004C4C4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2BACD5872A89388900452A2D /* TextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,11 +242,11 @@
 		23EA5B542597A1F900769D19 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				2BACD5862A89387400452A2D /* ViewModifiers */,
 				23EA5B8D2597FEBB00769D19 /* Extensions.swift */,
 				234578112598F3FD00CBA711 /* ImagePicker.swift */,
 				23457844259B915A00CBA711 /* Constants.swift */,
 				2B9DB91C29FC5479004C4C4F /* AdaptiveImage.swift */,
-				2B9DB92029FC742D004C4C4F /* IGButtonModifier.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -264,7 +266,6 @@
 			children = (
 				23457858259B969C00CBA711 /* User.swift */,
 				23457881259E6FF400CBA711 /* Post.swift */,
-				23CA95B6259F9BEC00382F7C /* Comment.swift */,
 				23CA95C525A0E2B200382F7C /* Notification.swift */,
 				2338F7A425AA40C400A298FA /* Message.swift */,
 			);
@@ -301,6 +302,7 @@
 		23EA5B622597A28D00769D19 /* Comments */ = {
 			isa = PBXGroup;
 			children = (
+				2BACD5852A89380D00452A2D /* Model */,
 				2BCBD7282986CF260002ABC6 /* View */,
 				2BCBD7292986CF320002ABC6 /* ViewModel */,
 			);
@@ -404,6 +406,23 @@
 				2B0F0AD029F1AB7000EDF0F2 /* NotificationService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		2BACD5852A89380D00452A2D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				23CA95B6259F9BEC00382F7C /* Comment.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2BACD5862A89387400452A2D /* ViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+				2B9DB92029FC742D004C4C4F /* IGButtonModifier.swift */,
+				2BACD5872A89388900452A2D /* TextFieldModifier.swift */,
+			);
+			path = ViewModifiers;
 			sourceTree = "<group>";
 		};
 		2BCBD7192986CDFF0002ABC6 /* Core */ = {
@@ -746,6 +765,7 @@
 				23EA5B822597B55E00769D19 /* SearchBar.swift in Sources */,
 				2B9DB92529FC75B0004C4C4F /* CreatePasswordView.swift in Sources */,
 				2B9DB93429FD82DF004C4C4F /* ContentViewModel.swift in Sources */,
+				2BACD5882A89388900452A2D /* TextFieldModifier.swift in Sources */,
 				2338F7AF25AA945B00A298FA /* ChatView.swift in Sources */,
 				23CA95BA259F9BFC00382F7C /* CommentsView.swift in Sources */,
 				23CA95B0259E840F00382F7C /* FeedCellViewModel.swift in Sources */,

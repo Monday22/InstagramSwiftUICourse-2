@@ -25,9 +25,8 @@ struct MessageView: View {
                     .padding(.trailing)
             } else {
                 HStack(alignment: .bottom) {
-                    if let user = viewModel.message.user {
-                        CircularProfileImageView(user: user, size: .xSmall)
-                    }
+                    CircularProfileImageView(user: viewModel.message.user, size: .xSmall)
+
                     
                     Text(viewModel.message.text)
                         .font(.system(size: 15))
