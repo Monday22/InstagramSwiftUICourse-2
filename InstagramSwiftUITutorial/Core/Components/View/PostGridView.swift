@@ -43,7 +43,7 @@ struct PostGridView: View {
             }
         })
         .navigationDestination(for: Post.self) { post in
-            FeedCell(viewModel: FeedCellViewModel(post: post))
+            FeedCell(post: post)
         }
     }
 }

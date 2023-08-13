@@ -34,7 +34,7 @@ struct NotificationCell: View {
                             Text(notification.type.notificationMessage)
                             .font(.system(size: 14)) +
                         
-                            Text(" \(viewModel.timestampString)")
+                        Text(" \(notification.timestamp.timestampString())")
                             .foregroundColor(.gray).font(.system(size: 12))
                     }
                     .multilineTextAlignment(.leading)
@@ -45,7 +45,7 @@ struct NotificationCell: View {
             
             if notification.type != .follow {
                 if let post = notification.post {
-                    NavigationLink(destination: FeedCell(viewModel: FeedCellViewModel(post: post))) {
+                    NavigationLink(destination: FeedCell(post: post)) {
                         KFImage(URL(string: post.imageUrl))
                             .resizable()
                             .scaledToFill()

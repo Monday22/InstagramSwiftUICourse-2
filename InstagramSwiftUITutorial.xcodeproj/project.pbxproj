@@ -89,6 +89,7 @@
 		2B9DB95A2A015D97004C4C4F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DB9592A015D97004C4C4F /* Color.swift */; };
 		2B9DB95C2A01967D004C4C4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DB95B2A01967D004C4C4F /* SettingsView.swift */; };
 		2BACD5882A89388900452A2D /* TextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD5872A89388900452A2D /* TextFieldModifier.swift */; };
+		2BACD58B2A894B3500452A2D /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD58A2A894B3500452A2D /* Timestamp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -169,6 +170,7 @@
 		2B9DB9592A015D97004C4C4F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		2B9DB95B2A01967D004C4C4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2BACD5872A89388900452A2D /* TextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldModifier.swift; sourceTree = "<group>"; };
+		2BACD58A2A894B3500452A2D /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,7 +248,6 @@
 				23EA5B8D2597FEBB00769D19 /* Extensions.swift */,
 				234578112598F3FD00CBA711 /* ImagePicker.swift */,
 				23457844259B915A00CBA711 /* Constants.swift */,
-				2B9DB91C29FC5479004C4C4F /* AdaptiveImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -342,6 +343,7 @@
 			children = (
 				2B0F0ACB29ED895B00EDF0F2 /* PreviewProvider.swift */,
 				2B9DB9592A015D97004C4C4F /* Color.swift */,
+				2BACD58A2A894B3500452A2D /* Timestamp.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -630,6 +632,7 @@
 		2BCBD72E2986CFE90002ABC6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2B9DB91C29FC5479004C4C4F /* AdaptiveImage.swift */,
 				2B9DB9352A000266004C4C4F /* CircularProfileImageView.swift */,
 				23EA5B842597B78500769D19 /* PostGridView.swift */,
 				23EA5B872597B97E00769D19 /* UserCell.swift */,
@@ -779,6 +782,7 @@
 				23CA95B0259E840F00382F7C /* FeedCellViewModel.swift in Sources */,
 				2338F7A925AA940100A298FA /* ConversationsView.swift in Sources */,
 				23457882259E6FF400CBA711 /* Post.swift in Sources */,
+				2BACD58B2A894B3500452A2D /* Timestamp.swift in Sources */,
 				2345786B259B9B2F00CBA711 /* SearchViewModel.swift in Sources */,
 				2B9DB92C29FD80B8004C4C4F /* LoginViewModel.swift in Sources */,
 				23EA5B762597A45100769D19 /* NotificationsView.swift in Sources */,

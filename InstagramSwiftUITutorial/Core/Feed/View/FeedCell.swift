@@ -21,6 +21,10 @@ struct FeedCell: View {
         return viewModel.post.user
     }
     
+    private var post: Post {
+        return viewModel.post
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -34,7 +38,7 @@ struct FeedCell: View {
             }
             .padding([.leading, .bottom], 8)
             
-            KFImage(URL(string: viewModel.post.imageUrl))
+            KFImage(URL(string: post.imageUrl))
                 .resizable()
                 .scaledToFill()
                 .frame(width: UIScreen.main.bounds.width, height: 400)
@@ -86,12 +90,12 @@ struct FeedCell: View {
             }
             
             HStack {
-                Text(viewModel.post.user?.username ?? "").font(.system(size: 14, weight: .semibold)) +
-                    Text(" \(viewModel.post.caption)")
+                Text(post.user?.username ?? "").font(.system(size: 14, weight: .semibold)) +
+                    Text(" \(post.caption)")
                     .font(.system(size: 14))
             }.padding(.horizontal, 8)
             
-            Text(viewModel.timestampString)
+            Text(post.timestamp.timestampString())
                 .font(.system(size: 14))
                 .foregroundColor(.gray)
                 .padding(.leading, 8)

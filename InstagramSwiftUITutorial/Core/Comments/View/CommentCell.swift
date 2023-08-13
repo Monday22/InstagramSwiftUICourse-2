@@ -20,7 +20,7 @@ struct CommentCell: View {
                     Text(comment.user?.username ?? "")
                         .fontWeight(.semibold)
                     
-                    Text(comment.timestampString ?? "")
+                    Text(comment.timestamp.timestampString())
                         .foregroundColor(.gray)
                 }
                 
