@@ -8,15 +8,18 @@
 import SwiftUI
 import Firebase
 import PhotosUI
+import FirebaseFirestoreSwift
 
 @MainActor
 class UploadPostViewModel: ObservableObject {
     @Published var didUploadPost = false
     @Published var error: Error?
+    @Published var profileImage: Image?
+    
     @Published var selectedImage: PhotosPickerItem? {
         didSet { Task { await loadImage(fromItem: selectedImage) } }
     }
-    @Published var profileImage: Image?
+    
     private var uiImage: UIImage?
     
     func uploadPost(caption: String) async throws {
@@ -25,15 +28,15 @@ class UploadPostViewModel: ObservableObject {
         
         do {
             guard let imageUrl = try await ImageUploader.uploadImage(image: image, type: .post) else { return }
-            let data: [String: Any] = [
-                "caption": caption,
-                "timestamp": Timestamp(date: Date()),
-                "likes": 0,
-                "imageUrl": imageUrl,
-                "ownerUid": uid,
-            ]
+            let post = Post(
+                ownerUid: uid,
+                caption: caption,
+                likes: 0,
+                imageUrl: imageUrl,
+                timestamp: Timestamp()
+            )
             
-            let _ = try await FirestoreConstants.PostsCollection.addDocument(data: data)
+            try await PostService.uploadPost(post)
             self.didUploadPost = true
         } catch {
             print("DEBUG: Failed to upload image with error \(error.localizedDescription)")
@@ -48,6 +51,5 @@ class UploadPostViewModel: ObservableObject {
         guard let uiImage = UIImage(data: data) else { return }
         self.uiImage = uiImage
         self.profileImage = Image(uiImage: uiImage)
-
     }
 }

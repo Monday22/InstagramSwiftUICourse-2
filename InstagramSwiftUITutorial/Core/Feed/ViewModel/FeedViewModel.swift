@@ -13,7 +13,7 @@ class FeedViewModel: ObservableObject {
     @Published var posts = [Post]()
     
     init() {
-        Task { try await fetchPostsWithUserData() }
+        Task { try await fetchPosts() }
     }
         
     private func fetchPostIDs() async -> [String] {

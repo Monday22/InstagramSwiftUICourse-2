@@ -7,8 +7,15 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestoreSwift
 
 struct PostService {
+    
+    static func uploadPost(_ post: Post) async throws {
+        guard let postData = try? Firestore.Encoder().encode(post) else { return }
+        let ref = try await FirestoreConstants.PostsCollection.addDocument(data: postData)
+        try await updateUserFeedsAfterPost(postId: ref.documentID)
+    }
     
     static func fetchPost(withId id: String) async throws -> Post {
         let postSnapshot = try await FirestoreConstants.PostsCollection.document(id).getDocument()
@@ -62,3 +69,24 @@ extension PostService {
         return snapshot.exists
     }
 }
+
+// MARK: - Feed Updates
+
+extension PostService {
+    private static func updateUserFeedsAfterPost(postId: String) async throws {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let followersSnapshot = try await FirestoreConstants.FollowersCollection.document(uid).collection("user-followers").getDocuments()
+        
+        for document in followersSnapshot.documents {
+            try await FirestoreConstants
+                .UserCollection
+                .document(document.documentID)
+                .collection("user-feed")
+                .document(postId).setData([:])
+        }
+        
+        try await FirestoreConstants.UserCollection.document(uid).collection("user-feed").document(postId).setData([:])
+    }
+}
+

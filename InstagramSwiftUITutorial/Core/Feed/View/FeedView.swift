@@ -42,7 +42,7 @@ struct FeedView: View {
             .navigationTitle("Feed")
             .navigationBarTitleDisplayMode(.inline)
             .refreshable {
-                Task { try await viewModel.fetchPostsWithUserData() }
+                Task { try await viewModel.fetchPosts() }
             }
             .navigationDestination(for: User.self) { user in
                 ProfileView(user: user)
