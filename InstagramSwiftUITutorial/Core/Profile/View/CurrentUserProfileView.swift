@@ -36,6 +36,7 @@ struct CurrentUserProfileView: View {
             .sheet(isPresented: $showSettingsSheet) {
                 SettingsView(selectedOption: $selectedSettingsOption)
                     .presentationDetents([.height(CGFloat(SettingsItemModel.allCases.count * 56))])
+                    .presentationDragIndicator(.visible)
             }
             
             .toolbar {

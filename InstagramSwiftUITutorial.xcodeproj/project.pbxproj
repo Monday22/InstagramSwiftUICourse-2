@@ -89,6 +89,8 @@
 		2B9DB95C2A01967D004C4C4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9DB95B2A01967D004C4C4F /* SettingsView.swift */; };
 		2BACD5882A89388900452A2D /* TextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD5872A89388900452A2D /* TextFieldModifier.swift */; };
 		2BACD58B2A894B3500452A2D /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD58A2A894B3500452A2D /* Timestamp.swift */; };
+		2BACD5922A895A5200452A2D /* SettingsItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD5912A895A5200452A2D /* SettingsItemModel.swift */; };
+		2BACD5942A895A6A00452A2D /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BACD5932A895A6A00452A2D /* SettingsRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -169,6 +171,8 @@
 		2B9DB95B2A01967D004C4C4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2BACD5872A89388900452A2D /* TextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldModifier.swift; sourceTree = "<group>"; };
 		2BACD58A2A894B3500452A2D /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
+		2BACD5912A895A5200452A2D /* SettingsItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItemModel.swift; sourceTree = "<group>"; };
+		2BACD5932A895A6A00452A2D /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +334,9 @@
 		23EA5B6A2597A2EE00769D19 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				2BACD5982A895AB100452A2D /* Components */,
+				2BACD5952A895A8600452A2D /* EditProfile */,
+				2BACD58E2A895A3700452A2D /* Settings */,
 				2BCBD71F2986CE620002ABC6 /* View */,
 				2BCBD7202986CE640002ABC6 /* ViewModel */,
 			);
@@ -352,27 +359,6 @@
 				23EA5B5B2597A26900769D19 /* ContentView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		2B6AEA672A03F338008D18F4 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				2B9DB95B2A01967D004C4C4F /* SettingsView.swift */,
-				2345780B2598DAFD00CBA711 /* UserStatView.swift */,
-				23EA5B782597A45B00769D19 /* ProfileView.swift */,
-				234578082598D64D00CBA711 /* ProfileHeaderView.swift */,
-				2345780E2598DBFE00CBA711 /* ProfileActionButtonView.swift */,
-				2B6AEA652A02DACB008D18F4 /* CurrentUserProfileView.swift */,
-			);
-			path = Profile;
-			sourceTree = "<group>";
-		};
-		2B6AEA682A03F33C008D18F4 /* EditProfile */ = {
-			isa = PBXGroup;
-			children = (
-				2338F79C25AA12A900A298FA /* EditProfileView.swift */,
-			);
-			path = EditProfile;
 			sourceTree = "<group>";
 		};
 		2B9DB92829FC77A5004C4C4F /* Protocols */ = {
@@ -448,6 +434,67 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		2BACD58E2A895A3700452A2D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2BACD58F2A895A3A00452A2D /* Model */,
+				2BACD5902A895A3D00452A2D /* Views */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		2BACD58F2A895A3A00452A2D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2BACD5912A895A5200452A2D /* SettingsItemModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2BACD5902A895A3D00452A2D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2B9DB95B2A01967D004C4C4F /* SettingsView.swift */,
+				2BACD5932A895A6A00452A2D /* SettingsRowView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2BACD5952A895A8600452A2D /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				2BACD5962A895A9200452A2D /* View */,
+				2BACD5972A895A9500452A2D /* ViewModel */,
+			);
+			path = EditProfile;
+			sourceTree = "<group>";
+		};
+		2BACD5962A895A9200452A2D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2338F79C25AA12A900A298FA /* EditProfileView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2BACD5972A895A9500452A2D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2338F79F25AA16F700A298FA /* EditProfileViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2BACD5982A895AB100452A2D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2345780E2598DBFE00CBA711 /* ProfileActionButtonView.swift */,
+				234578082598D64D00CBA711 /* ProfileHeaderView.swift */,
+				2345780B2598DAFD00CBA711 /* UserStatView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		2BCBD7192986CDFF0002ABC6 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,8 +557,8 @@
 		2BCBD71F2986CE620002ABC6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2B6AEA682A03F33C008D18F4 /* EditProfile */,
-				2B6AEA672A03F338008D18F4 /* Profile */,
+				23EA5B782597A45B00769D19 /* ProfileView.swift */,
+				2B6AEA652A02DACB008D18F4 /* CurrentUserProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -520,7 +567,6 @@
 			isa = PBXGroup;
 			children = (
 				2345786D259D763500CBA711 /* ProfileViewModel.swift */,
-				2338F79F25AA16F700A298FA /* EditProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -813,7 +859,9 @@
 				2338F7B525AA947600A298FA /* MessageView.swift in Sources */,
 				2338F7BB25AA94DA00A298FA /* ChatViewModel.swift in Sources */,
 				2B9DB95A2A015D97004C4C4F /* Color.swift in Sources */,
+				2BACD5922A895A5200452A2D /* SettingsItemModel.swift in Sources */,
 				23CA95C625A0E2B300382F7C /* Notification.swift in Sources */,
+				2BACD5942A895A6A00452A2D /* SettingsRowView.swift in Sources */,
 				23CA95CC25A23EB800382F7C /* NotificationCellViewModel.swift in Sources */,
 				23CA95B7259F9BEC00382F7C /* Comment.swift in Sources */,
 				2B9DB91D29FC5479004C4C4F /* AdaptiveImage.swift in Sources */,
