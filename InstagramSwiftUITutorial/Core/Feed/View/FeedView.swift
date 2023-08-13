@@ -15,15 +15,17 @@ struct FeedView: View {
             ScrollView {
                 LazyVStack(spacing: 32) {
                     ForEach(viewModel.posts) { post in
-                        FeedCell(viewModel: FeedCellViewModel(post: post))
+                        FeedCell(post: post)
                         
                     }
                 }
                 .padding(.top)
             }
-            .toolbar(content: {
+            .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    AdaptiveImage(light: "instagram_logo_black", dark: "instagram_logo_white", width: 100, height: 50)
+                    AdaptiveImage(light: "instagram_logo_black",
+                                  dark: "instagram_logo_white",
+                                  width: 100, height: 50)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -36,11 +38,11 @@ struct FeedView: View {
                                 .foregroundColor(Color.theme.systemBackground)
                         })
                 }
-            })
+            }
             .navigationTitle("Feed")
             .navigationBarTitleDisplayMode(.inline)
             .refreshable {
-                Task { try await viewModel.fetchAllPosts() }
+                Task { try await viewModel.fetchPostsWithUserData() }
             }
             .navigationDestination(for: User.self) { user in
                 ProfileView(user: user)

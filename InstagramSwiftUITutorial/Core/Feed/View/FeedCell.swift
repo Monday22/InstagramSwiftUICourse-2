@@ -13,8 +13,8 @@ struct FeedCell: View {
     
     var didLike: Bool { return viewModel.post.didLike ?? false }
     
-    init(viewModel: FeedCellViewModel) {
-        self.viewModel = viewModel
+    init(post: Post) {
+        self.viewModel = FeedCellViewModel(post: post)
     }
     
     private var user: User? {

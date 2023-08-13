@@ -18,23 +18,36 @@ class RegistrationViewModel: ObservableObject {
     @Published var usernameValidationFailed = false
     
     func createUser() async throws {
-       try await AuthService.shared.createUser(email: email, password: password, username: username)
+       try await AuthService.shared.createUser(email: email,
+                                               password: password,
+                                               username: username)
     }
     
     @MainActor
     func validateEmail() async throws {
         self.isLoading = true
-        self.emailValidationFailed = false 
-        let snapshot = try await FirestoreConstants.UserCollection.whereField("email", isEqualTo: email).getDocuments()
+        self.emailValidationFailed = false
+        
+        let snapshot = try await FirestoreConstants
+            .UserCollection
+            .whereField("email", isEqualTo: email)
+            .getDocuments()
+        
         self.emailValidationFailed = !snapshot.isEmpty
         self.emailIsValid = snapshot.isEmpty
+        
         self.isLoading = false
     }
     
     @MainActor
     func validateUsername() async throws {
         self.isLoading = true
-        let snapshot = try await FirestoreConstants.UserCollection.whereField("username", isEqualTo: username).getDocuments()
+        
+        let snapshot = try await FirestoreConstants
+            .UserCollection
+            .whereField("username", isEqualTo: username)
+            .getDocuments()
+        
         self.usernameIsValid = snapshot.isEmpty
         self.isLoading = false
     }
